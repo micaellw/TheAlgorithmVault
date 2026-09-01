@@ -1,109 +1,65 @@
-The Algorithm Vault – Pathfinding Visualizer
+# 🧭 Pathfinding Visualizer (Dijkstra vs A* Search)
 
-    Dijkstra vs A* (Interactive Algorithm Lab)
+> **โมดูลในโปรเจกต์:** [The Algorithm Vault](../../README.md)
 
-    ภาพรวมโปรเจค :
-        Pathfinding Visualizer เป็นระบบจำลองและเปรียบเทียบอัลกอริทึม:
-        Dijkstra’s Algorithm
-        A* (A-Star Search)
-        บนกราฟแบบ Grid 2 มิติ (8-direction movement)
-        พร้อมแสดงผลแบบ Animation และมีระบบเก็บสถิติการรัน
+ระบบจำลองและเปรียบเทียบอัลกอริทึมการค้นหาเส้นทางที่สั้นที่สุด (Shortest Path Finding) บน 2D Grid รองรับการเดิน 8 ทิศทาง พัฒนาขึ้นเพื่อศึกษาการทำงานของ **Dijkstra's Algorithm** เปรียบเทียบกับ **A* Search** ที่มีการใช้ Heuristic ช่วยนำทาง
 
-    วัตถุประสงค์ :
-        โปรเจคนี้พัฒนาเพื่อ:
-        ศึกษา Single Source Shortest Path (SSSP)
-        วิเคราะห์ Time Complexity เชิงทฤษฎี
-        เปรียบเทียบ Worst-case vs Average-case
-        วิเคราะห์ Effective Branching Factor
-        ทดสอบ Heuristic Quality ของ A*
+---
 
-    แนวคิดเชิงอัลกอริทึม :
-        Dijkstra
-        ใช้ priority queue (MinHeap)
-        เลือกโหนดที่มี g(n) ต่ำสุดเสมอ
-        ไม่มี heuristic guidance
-        Time Complexity:
-        O((V + E) log V)
-        A* Search
+## 🎯 ฟีเจอร์หลัก (Features)
 
-    ใช้สูตร:
-        f(n) = g(n) + h(n)
-        โดย h(n) ใช้ Octile Distance (เหมาะกับ 8-connected grid)
+### 1. การเปรียบเทียบอัลกอริทึม
+- **Dijkstra’s Algorithm:** ค้นหาเส้นทางที่สั้นที่สุดโดยขยายโหนดที่มีต้นทุนจริง $g(n)$ ต่ำสุดเสมอ
+- **A* Search Algorithm:** ใช้ฟังก์ชันประเมิน $f(n) = g(n) + h(n)$ โดยใช้ **Octile Distance** เป็น Heuristic เหมาะสมกับ Grid แบบ 8 ทิศทาง ช่วยลดจำนวนโหนดที่ต้องสำรวจลงอย่างมาก
 
-    คุณสมบัติ:
-        Admissible
-        Consistent
-        คง Optimality
-        Worst-case complexity เท่ากับ Dijkstra
-        แต่ลด node expansion ใน average-case ได้มาก
-        ผลการทดลอง (เชิงประจักษ์)
+### 2. Custom Min-Heap (Priority Queue)
+- พัฒนาโครงสร้างข้อมูล **Binary Min-Heap** ด้วย JavaScript ขึ้นมาเอง เพื่อใช้ดึงโหนดที่มีค่าน้อยที่สุดได้อย่างมีประสิทธิภาพ ($O(\log V)$)
 
-    จากการรันหลายรอบ:
-        Dijkstra ขยาย ~80% ของกริด
-        A* ขยาย ~25–35%
-        Efficiency Gain สูงสุด ~60–70%
+### 3. ระบบแผนที่และเขาวงกต (Grid & Maze)
+- รองรับการคลิกลากเพื่อวางจุดเริ่มต้น, จุดสิ้นสุด, กำแพง หรือลบสิ่งกีดขวาง
+- มีระบบสร้างเขาวงกตแบบสุ่ม (Random Maze Generator)
+- รองรับการเคลื่อนที่ 8 ทิศทาง พร้อมระบบป้องกันการตัดมุมทะลุกำแพง (Corner Clipping Prevention)
 
-        ระบบคำนวณ % ความฉลาดของ A* อัตโนมัติจาก:
-            ((Dijkstra - A*) / Dijkstra) * 100
+### 4. Performance Dashboard
+- แสดงผลการเปรียบเทียบจำนวนโหนดที่สำรวจ (Nodes Visited) และความยาวเส้นทาง (Path Length)
+- คำนวณเปอร์เซ็นต์ความคุ้มค่า/ประหยัดโหนดที่ A* ทำได้ดีกว่า Dijkstra
+- บันทึกประวัติและแสดงแผนภูมิเปรียบเทียบด้วย Chart.js
 
-    โครงสร้างระบบ :
-        Architecture Overview
-        UI Layer
-          ↓
-        GridController
-          ↓
-        Algorithm Engine
-          ↓
-        MinHeap (Priority Queue)
+---
 
-    โครงสร้างไฟล์หลัก :
-        Layout_Pathfinding_Visualizer.html
-        GridController.js
-        MazeGenerator.js
-        DijkstraEngine2.js
-        AStarEngine.js
-        MinHeap.js
+## ⏱️ ความซับซ้อนของการทำงาน (Complexity)
 
-    จุดเด่นทางวิศวกรรม :
-        เขียน MinHeap เอง (Binary Heap)
-        push() → O(log V)
-        pop() → O(log V)
-        รองรับ 8-direction movement
-        พร้อมป้องกัน corner clipping
-        ใช้ Octile Heuristic
-        เหมาะกับ grid 8 ทิศทางมากกว่า Manhattan
-        มีระบบ History + Dashboard
-        เก็บข้อมูลใน localStorage
-        แสดง Chart เปรียบเทียบด้วย Chart.js
-        วิเคราะห์ Average Efficiency
-        แยก Engine ออกจาก UI ชัดเจน
-        Logic ไม่ผูกกับ DOM
-        Time & Space Complexity
+สำหรับ Grid ขนาด $N \times N$ โดยมีจำนวนจุดยอด $|V| = N^2$ และจำนวนเส้นเชื่อม $|E| \approx 8N^2$:
 
-        สำหรับ Grid ขนาด N × N:
-            |V| = N²
-            |E| ≈ 8N²
+| อัลกอริทึม | Time Complexity | Space Complexity | หมายเหตุ |
+| :--- | :---: | :---: | :--- |
+| **Dijkstra** | $O((V + E) \log V)$ | $O(V)$ | ใช้ Min-Heap ในการจัดการ Priority Queue |
+| **A* Search** | $O((V + E) \log V)$ (Worst) | $O(V)$ | Average-case ขยายโหนดน้อยกว่า Dijkstra อย่างเห็นได้ชัด (~50–70%) |
 
-        Time Complexity:
-            O((V + E) log V) ≈ O(N² log N)
+---
 
-        Space Complexity:
-            O(V)
+## 📁 โครงสร้างไฟล์ (File Structure)
 
+```text
+Pathfinding Visualizer/
+├── Layout_Pathfinding_Visualizer.html     # หน้าเว็บหลักของโมดูล
+├── scripts/
+│   ├── Main.js                            # จุดเริ่มต้นและประสานงานระบบ UI
+│   ├── GridController.js                  # จัดการเหตุการณ์บนตาราง Grid และการวาดกำแพง
+│   ├── MazeGenerator.js                   # อัลกอริทึมสุ่มสร้างเขาวงกต
+│   └── Scriptscalculate/                  # โฟลเดอร์ Engine การคำนวณ
+│       ├── DijkstraEngine2.js             # Dijkstra Pathfinding Engine
+│       ├── AStarEngine.js                 # A* Pathfinding Engine
+│       └── MinHeap.js                     # โครงสร้างข้อมูล Binary Min-Heap
+├── styles/
+│   └── Style_Pathfinding_Visualizer.css   # สไตล์ตาราง Grid, Sidebar และ แอนิเมชันสำรวจโหนด
+└── README.md                              # เอกสารประจำโมดูล
+```
 
-    เทคโนโลยีที่ใช้ :
-        JavaScript (ES6 Modules)
-        HTML5 / CSS3
-        Chart.js
-        LocalStorage API
+---
 
-    สิ่งที่ได้เรียนรู้ :
-        Priority Queue Implementation
-        Heuristic Design
-        Effective Branching Factor
-        Animation State Control
-        Recursive Maze Generation
-        Separation of Concerns
-
-    ผู้พัฒนา :
-        นักศึกษาสาขาวิศวกรรมคอมพิวเตอร์และการสื่อสาร    
+## 💡 สิ่งที่ได้เรียนรู้จากโมดูลนี้
+- การสร้างและใช้งาน Binary Min-Heap เพื่อเพิ่มความเร็วในการค้นหาเส้นทาง
+- ความแตกต่างระหว่าง Uninformed Search (Dijkstra) กับ Informed Search (A*)
+- การออกแบบ Heuristic Function ที่เป็น Admissible และ Consistent
+- การแยก Algorithm Engine ออกจาก DOM Layer เพื่อให้โค้ดทดสอบและขยายต่อได้ง่าย

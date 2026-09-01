@@ -1,88 +1,56 @@
-Tower of Hanoi – Interactive Algorithm Lab
+# 🏯 Towers of Hanoi (Interactive Recursion Lab)
 
-    (ส่วนหนึ่งของโปรเจค The Algorithm Vault)
+> **โมดูลในโปรเจกต์:** [The Algorithm Vault](../../README.md)
 
-    ภาพรวมโปรเจค :
-        โปรเจคนี้เป็น Web Interactive Lab สำหรับเรียนรู้และทดลองอัลกอริทึม Tower of Hanoi
+ระบบจำลองปัญหาคณิตศาสตร์ระดับคลาสสิก **"หอคอยฮานอย (Tower of Hanoi)"** เพื่อศึกษาแนวคิดของฟังก์ชันเรียกซ้ำ (Recursion), Call Stack และการเติบโตแบบทวีคูณ (Exponential Growth) ผ่าน Interactive Simulation
 
-    ผู้ใช้สามารถ:
-        ลากจานเองเพื่อแก้โจทย์
-        ให้ AI แก้โจทย์แบบอัตโนมัติ
-        ดูจำนวนครั้งที่ย้ายจริง vs ค่าที่ดีที่สุด
-        ดู Recursive Monitor แบบเรียลไทม์
-        เรียนรู้ทฤษฎี Big-O และ Recursion
+---
 
-    จุดประสงค์คือทำให้ “อัลกอริทึมที่เป็นทฤษฎี” กลายเป็นสิ่งที่มองเห็นและทดลองได้จริง
+## 🎯 ฟีเจอร์หลัก (Features)
 
-    ความสามารถหลักของระบบ :
-        Interactive Drag & Drop
-        ผู้ใช้สามารถลากจานระหว่างเสาได้
-        ระบบตรวจสอบกฎ (ห้ามวางจานใหญ่บนจานเล็ก)
-        แสดงข้อความแจ้งเตือนเมื่อผิดกฎ
-        AI Recursive Solver
-        ระบบมี AI ที่ใช้ Recursive Algorithm ในการแก้ปัญหา
+### 1. โหมดเล่นด้วยตัวเอง (Interactive Manual Mode)
+- ผู้ใช้สามารถลากและวางจาน (Drag & Drop) หรือคลิกเลือกย้ายจานระหว่างเสา 3 ต้น
+- มีระบบตรวจสอบกฎตามกติกาจริง (ห้ามวางจานที่มีขนาดใหญ่กว่าทับบนจานที่เล็กกว่า)
+- นับจำนวนครั้งที่ผู้ใช้ย้ายจริง เปรียบเทียบกับจำนวนครั้งขั้นต่ำตามทฤษฎี
 
-        สูตรจำนวนครั้งขั้นต่ำ:
-            T(n) = 2ⁿ − 1
-            ตัวอย่าง:
-                3 จาน → 7 moves
-                4 จาน → 15 moves
-                5 จาน → 31 moves
+### 2. AI Recursive Auto-Solver
+- ระบบแก้ปัญหาอัตโนมัติด้วยอัลกอริทึม Divide and Conquer Recursion
+- คำนวณจำนวนครั้งที่ย้ายน้อยที่สุดตามสูตร:
+  $$T(n) = 2^n - 1$$
+  *(เช่น 3 จาน = 7 ครั้ง, 4 จาน = 15 ครั้ง, 5 จาน = 31 ครั้ง)*
+- รองรับการแก้ปัญหาต่อจาก **Arbitrary State** (เริ่มให้อัตโนมัติจากสถานะที่ผู้ใช้จัดจานค้างไว้ได้)
 
-        Recursive Monitor :
-            แสดงสถานะการทำงานของ AI
-            แสดงลำดับการย้ายจาน    
-            แสดง Log แบบ Timestamp
+### 3. Real-time Recursive Monitor
+- แสดงสถิติการย้ายจานแบบเรียลไทม์
+- มีกล่องบันทึก Log ลำดับขั้นตอนการเคลื่อนย้ายจาน
 
-    วิเคราะห์เชิงทฤษฎี :
-        มีหน้าอธิบายเชิงลึกเกี่ยวกับ:
-        Recurrence Relation
-        Mathematical Induction
-        Time Complexity → Θ(2ⁿ)
-        Space Complexity → O(n)
-        State Space Analysis → 3ⁿ
+---
 
+## ⏱️ ความซับซ้อนของการทำงาน (Complexity)
 
-    โปรเจคนี้สะท้อนทักษะดังนี้ :
-        เข้าใจ Recursion
-        เข้าใจ Time / Space Complexity
-        เข้าใจ Call Stack Behavior
-        ออกแบบโครงสร้างคลาส (OOP JavaScript)
-        แยกหน้าที่การทำงานของระบบ (Separation of Concern)
-        เขียน Algorithm Engine แยกจาก UI
+| มิติ | ค่า Complexity | คำอธิบาย |
+| :--- | :---: | :--- |
+| **Time Complexity** | $\Theta(2^n)$ | จำนวนขั้นตอนการย้ายเพิ่มขึ้นเป็น 2 เท่าตามจำนวนจาน $n$ |
+| **Space Complexity** | $O(n)$ | ลึกสุดตามขนาดของ Call Stack เท่ากับจำนวนจาน $n$ |
+| **State Space** | $\le 3^n$ | จำนวนรูปแบบการจัดวางจานที่เป็นไปได้ทั้งหมดบนเสา 3 ต้น |
 
-    โครงสร้างหลักแบ่งเป็น :
-        OperationHanoi → Algorithm Logic
-        Monitor → UI Controller
-        Recursive Engine → AI Solve System
+---
 
-    เทคโนโลยีที่ใช้ :
-        HTML5
-        CSS3 (Custom Layout + Grid)
-        Vanilla JavaScript (ES6)
-        OOP Design Pattern
-        Recursive Algorithm Implementation
-        ไม่มีการใช้ Framework สำเร็จรูป
-        เน้นเขียน Logic เองทั้งหมด
+## 📁 โครงสร้างไฟล์ (File Structure)
 
-    Complexity Summary :
-        Metric	            :        Growth
-        Time Complexity	    :        Θ(2ⁿ)
-        Space Complexity    :        O(n)
-        State Space	        :        ≤ 3ⁿ
+```text
+Tower_Of_Hanoi/
+├── TowerOfHanoi.html                      # หน้าเว็บหลักของโมดูล
+├── scripts/
+│   └── scriptsHanoi.js                    # จัดการ Game State, Drag & Drop และ Recursive AI Solver
+├── styles/
+│   └── TowerOfHanoi.css                   # สไตล์ Dark Theme, เสา และจานแอนิเมชัน
+└── README.md                              # เอกสารประจำโมดูล
+```
 
-    จุดเด่นเชิงวิศวกรรม :
-        แก้ได้จาก Arbitrary State (ไม่จำเป็นต้องเริ่มต้นจากต้นเกม)
-        AI สามารถทำงานต่อจากสถานะปัจจุบัน
-        แสดงผลแบบ Visual + Theoretical Analysis
-        โค้ดแยก Algorithm ออกจาก Presentation Layer
+---
 
-    วัตถุประสงค์การเรียนรู้ :
-        โปรเจคนี้สร้างขึ้นเพื่อ :
-            เข้าใจ Recursion แบบเชิงลึก
-            เข้าใจ Exponential Growth
-            เชื่อมโยงทฤษฎีกับการ Implement จริง
-            ฝึกออกแบบโครงสร้าง Algorithm
-
-    ผู้พัฒนา :
-        นักศึกษาสาขาวิศวกรรมคอมพิวเตอร์และการสื่อสาร
+## 💡 สิ่งที่ได้เรียนรู้จากโมดูลนี้
+- การทำความเข้าใจพฤติกรรมของ Call Stack และฟังก์ชันเรียกซ้ำ (Recursion)
+- การสร้าง Interactive Drag-and-drop และ Animation โดยใช้ Vanilla JavaScript
+- การแก้ปัญหาต่อจากสถานะปัจจุบัน (Arbitrary State Solver)

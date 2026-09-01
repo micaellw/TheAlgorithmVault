@@ -1,107 +1,61 @@
-Linked List & Stack Visual Lab
+# 🔗 Data Structure Lab (Linked List & Stack)
 
-    ส่วนหนึ่งของโปรเจค: The Algorithm Vault
+> **โมดูลในโปรเจกต์:** [The Algorithm Vault](../../README.md)
 
-    ภาพรวมโปรเจค :
-        Linked List & Stack Visual Lab คือระบบจำลองการทำงานของโครงสร้างข้อมูล 2 ชนิด ได้แก่:
-        Linked List (Dynamic Structure)
-        Stack (LIFO – Last In First Out)
-        โดยเน้นการแสดง “ขั้นตอนการทำงานจริง” ของอัลกอริทึมแบบ Step-by-Step พร้อม Visualization
+ระบบจำลองและสาธิตการทำงานของโครงสร้างข้อมูลพื้นฐาน 2 ชนิด ได้แก่ **Singly Linked List** (โครงสร้างแบบพลวัต/Dynamic) และ **Stack** (โครงสร้างแบบ Last-In, First-Out) เพื่อช่วยให้เห็นภาพการจัดการหน่วยความจำ การเปลี่ยนจุดเชื่อมโยง (Pointers) และการเข้าออกของข้อมูล
 
-    จุดประสงค์ของโปรเจค :
-        โปรเจคนี้พัฒนาเพื่อ:
-            ฝึกการออกแบบอัลกอริทึมเชิงโครงสร้าง
-            เข้าใจ Memory Model (Dynamic vs Static)
-            วิเคราะห์ Time & Space Complexity
-            ออกแบบระบบ State-driven Animation
-            จำลอง Execution Flow แบบทีละขั้น
+---
 
-    ส่วนที่ 1: Linked List Lab :
-        ฟังก์ชันที่รองรับ :
-            Add First (เพิ่ม Node ด้านหน้า)
-            Delete Node by Value
-            Step-by-step traversal
-            Highlight Node ที่กำลังประมวลผล
-            แสดง NULL termination
+## 🎯 ฟีเจอร์หลัก (Features)
 
-        สิ่งที่ระบบจำลอง :
-            Pointer Traversal
-            Head Update
-            การตัดสายเชื่อม (unlink)
-            การค้นหาแบบ O(n)
+### 1. Singly Linked List Lab
+- **Insert Head (Add First):** เพิ่มโหนดใหม่ที่ตำแหน่งหน้าสุด พร้อมอัปเดต Pointer ชี้ไปยังโหนดถัดไป
+- **Delete by Value:** ค้นหาโหนดตามค่าที่ระบุ และจำลองการ Unlink โหนดออกจากสายเชื่อมโยง
+- **Pointer Traversal:** แอนิเมชันท่องไปยังแต่ละโหนดทีละก้าวเพื่อค้นหาตำแหน่งเป้าหมาย
+- แสดงผล `NULL` เพื่อบ่งบอกจุดสิ้นสุดของลิสต์
 
-        Complexity :
-            Operation	    Time Complexity
-            Insert Head	        O(1)
-            Delete by Value	    O(n)
-            Search	            O(n)
-            Space	            O(n)
+### 2. Stack Lab (Array-based LIFO)
+- **Push:** เพิ่มข้อมูลลงบนจุดสูงสุดของ Stack พร้อมขยับ `Top` pointer ขึ้น
+- **Pop:** นำข้อมูลตัวล่าสุดออกจากจุดสูงสุดของ Stack พร้อมลดตำแหน่ง `Top` pointer
+- **Peek:** ดูค่าที่อยู่บนสุดของ Stack โดยไม่นำข้อมูลออก
+- **Boundary Checks:** ตรวจสอบเงื่อนไขข้อผิดพลาด **Stack Overflow** (เต็มความจุ) และ **Stack Underflow** (ว่างเปล่า)
 
-    ส่วนที่ 2: Stack Lab :
-        ฟังก์ชันที่รองรับ :
-            Push
-            Pop
-            Step-by-step animation
-            Overflow / Underflow detection
-            แสดงตำแหน่ง Top
+### 3. Step-Driven Animation Engine
+- แปลงทุกคำสั่งของผู้ใช้เป็นชุดขั้นตอน (`Steps[]`) ก่อนเริ่มเล่นแอนิเมชัน เพื่อให้ผู้ใช้สามารถดูการทำงานทีละสเต็ปได้อย่างแม่นยำ
 
-        สิ่งที่ระบบจำลอง :
-            Stack Pointer (top)
-            Array-based stack
-            LIFO behavior
-            Boundary checking
+---
 
-        Complexity :
-            Operation	Time Complexity
-            Push	        O(1)
-            Pop	            O(1)
-            Peek	        O(1)
-            Space	        O(N_max)
+## ⏱️ ความซับซ้อนของการทำงาน (Complexity)
 
-        เทคโนโลยีที่ใช้ :
-            HTML5
-            CSS3 (Animation + Grid)
-            JavaScript (ES6 Modules)
-            Class-based UI Architecture
-            State Machine Simulation
+| โครงสร้าง | การดำเนินการ | Time Complexity | Space Complexity |
+| :--- | :--- | :---: | :---: |
+| **Linked List** | Insert Head | $O(1)$ | $O(1)$ |
+| | Delete by Value | $O(n)$ | $O(1)$ |
+| | Search / Traversal | $O(n)$ | $O(1)$ |
+| | Total Memory | - | $O(n)$ |
+| **Stack** | Push | $O(1)$ | $O(1)$ |
+| | Pop | $O(1)$ | $O(1)$ |
+| | Peek | $O(1)$ | $O(1)$ |
+| | Total Memory | - | $O(N_{\max})$ |
 
-        แนวคิดการออกแบบระบบ :
-            ระบบถูกออกแบบแบบ :
-                User Action
-                   ↓
-                Generate Steps[]
-                   ↓
-                Render Step-by-Step
-                   ↓
-                Apply State
+---
 
-                ไม่มีการเปลี่ยน Data โดยตรง
-                ทุกอย่างผ่าน “Steps Array” ก่อนเสมอ
+## 📁 โครงสร้างไฟล์ (File Structure)
 
-            นี่คือแนวคิดเดียวกับ :
-                Algorithm Simulation
-                Debug Trace System
-                Execution Modeling
+```text
+Linked List or Stack/
+├── Linked_List_AND_Stack.html             # หน้าเว็บหลักรวม 2 Lab
+├── scripts/
+│   ├── StyleUI.js                         # คลาสวาด Node และจัดการ Animation ของทั้ง Linked List และ Stack
+│   └── swicth.js                          # จัดการการสลับแท็บ (Tab Switching) และการรับค่าจาก Input
+├── styles/
+│   └── Style_Linked_List_AND_Stack.css    # สไตล์แสดงผล Node, ลูกศร Pointer และ Stack Column
+└── README.md                              # เอกสารประจำโมดูล
+```
 
-    จุดเด่นเชิงวิศวกรรม :
-        แยก Logic กับ UI ชัดเจน
-        ใช้ Class แยก StackUI และ LinkedUI
-        มี State Control ระหว่าง Animation
-        รองรับ Lock Control ระหว่าง Step
-        ตรวจสอบ Error Case (Overflow/Underflow)
+---
 
-    สิ่งที่ได้เรียนรู้จากโปรเจคนี้ :
-        เข้าใจ Dynamic vs Static Memory Allocation
-        เข้าใจ Pointer-based vs Index-based Structure
-        เข้าใจ Cache Locality Impact (เชิงทฤษฎี)
-        ออกแบบ Execution Step Engine
-        คิดแบบ System Architecture ไม่ใช่แค่เขียนให้รันได้
-
-    เหมาะกับ :
-        ใช้เป็น Lab วิชา Data Structure
-        ใช้สอน Linked List / Stack
-        ใช้เป็นพื้นฐาน Visualization Algorithm
-        ใช้เป็น Portfolio สาย Software Engineer
-
-    ผู้พัฒนา :
-        นักศึกษาวิศวกรรมคอมพิวเตอร์และการสื่อสาร
+## 💡 สิ่งที่ได้เรียนรู้จากโมดูลนี้
+- ความแตกต่างระหว่างการจัดเก็บข้อมูลแบบ Pointer-based (Linked List) กับ Index-based (Stack Array)
+- การสร้าง Step Engine เพื่อควบคุมสถานะของแอนิเมชันบน DOM อย่างเป็นลำดับ
+- การจัดการข้อผิดพลาดและ Boundary Conditions ในโครงสร้างข้อมูล

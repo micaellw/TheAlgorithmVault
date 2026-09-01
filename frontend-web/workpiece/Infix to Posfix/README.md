@@ -1,97 +1,62 @@
-Math Engine Lab – Infix to Postfix & Calculator :
+# 🧮 Math Expression Engine (Infix to Postfix & Calculator)
 
-    ส่วนหนึ่งของโปรเจค: The Algorithm Vault
+> **โมดูลในโปรเจกต์:** [The Algorithm Vault](../../README.md)
 
-    ภาพรวมโปรเจค :
-        Math Engine Lab เป็นระบบทดลองด้านอัลกอริทึมที่ใช้ Stack ในการ:
-        แปลงนิพจน์คณิตศาสตร์จาก Infix → Postfix
-        คำนวณผลลัพธ์จาก Postfix
-        แสดงขั้นตอนการทำงานแบบ Step-by-Step
-        แสดงภาพ Stack แบบ Visual
-        บันทึกประวัติการคำนวณ
+ระบบจำลองการแปลงนิพจน์คณิตศาสตร์และการประเมินผลลัพธ์ด้วยโครงสร้างข้อมูล **Stack** พัฒนาขึ้นเพื่อฝึกการนำ Stack ไปใช้งานจริงในรูปแบบ Stack Machine และทำความเข้าใจลำดับความสำคัญของตัวดำเนินการ (Operator Precedence)
 
-    ตัวอย่างที่รองรับ :
-        (10+2)*5
-        3+4*2/(1-5)^2
-        A+B*C
+---
 
-    จุดประสงค์ของโปรเจค :
-        โปรเจคนี้พัฒนาเพื่อฝึก :
-            การออกแบบ Algorithm
-            การใช้ Stack จัดการ Operator Precedence
-            การจัดการ Edge Case (วงเล็บ, เครื่องหมายซ้อน, Unary minus)
-            การวิเคราะห์ Time Complexity
-            การออกแบบระบบแบบ Step Simulation
+## 🎯 ฟีเจอร์หลัก (Features)
 
-    ฟังก์ชันหลัก :
-        Infix → Postfix Conversion
-        ใช้แนวคิดของ Shunting Yard Algorithm
+### 1. Infix to Postfix Conversion
+- ประยุกต์ใช้ **Shunting-Yard Algorithm** ของ Edsger Dijkstra
+- ใช้ **Operator Stack** เพื่อจัดลำดับความสำคัญของตัวดำเนินการ:
+  - วงเล็บ: `( )`
+  - ลำดับสูงสุด: ยกกำลัง `^`
+  - ลำดับกลาง: คูณ/หาร/มอดุโล `*`, `/`, `%`
+  - ลำดับล่าง: บวก/ลบ `+`, `-`
+- รองรับทั้งตัวแปร (เช่น `A+B*C`) และตัวเลข
 
-        ระบบจะ:
-            อ่าน token ทีละตัว
-            ใช้ Operator Stack ควบคุมลำดับความสำคัญ
-            สร้าง Postfix Expression
-            Time Complexity: O(n)
-            Space Complexity: O(n)
-            Postfix Evaluation
+### 2. Postfix Evaluation (การคำนวณผลลัพธ์)
+- ใช้ **Operand Stack** ในการคำนวณ
+- เมื่อพบตัวเลขจะทำการ `push` ลง Stack และเมื่อพบตัวดำเนินการจะทำการ `pop` ตัวเลข 2 ตัวมาคำนวณแล้ว `push` ผลลัพธ์กลับเข้าไป
 
-        เมื่อเลือกโหมด Full Process :
-            ใช้ Operand Stack
-            เจอ operator → pop 2 ค่า → คำนวณ → push กลับ
-            รองรับ + - * / % ^
-            Time Complexity: O(n)
-            Step-by-Step Simulation
+### 3. Step-by-Step Interactive Simulation
+- แสดงขั้นตอนการประมวลผล Token ทีละตัวแบบแอนิเมชัน
+- แสดงสถานะของ Stack (Visual Stack) และคำอธิบายการกระทำ (Push / Pop) ในแต่ละขั้นตอน
 
-        ระบบแสดง :
-            Token ที่กำลังประมวลผล
-            Operator Stack
-            Operand Stack
-            ลูกศรแสดง Push / Pop
-            สถานะอธิบายการทำงานแต่ละขั้น
-            ช่วยให้เข้าใจการทำงานของ Stack ชัดเจน
-            Expression Validation
+### 4. Expression Validation
+- ตรวจสอบความสมดุลของวงเล็บเปิด-ปิด
+- ดักจับข้อผิดพลาด เช่น Operator ซ้อนกัน หรือ Operand ไม่เพียงพอ
 
-        ตรวจสอบ :
-            วงเล็บเปิด/ปิดสมดุล
-            เครื่องหมายซ้อนกัน
-            Operand ไม่เพียงพอ
-            รองรับ Unary minus
-            รองรับ implicit multiplication เช่น 2(3+4)
+---
 
-    เทคโนโลยีที่ใช้ :
-        HTML5
-        CSS3 (Grid Layout + Animation)
-        JavaScript (ES6 Module)
-        localStorage สำหรับ History Log
+## ⏱️ ความซับซ้อนของการทำงาน (Complexity)
 
-    โครงสร้างไฟล์ :
-        calculatorlogic.html
-        calculatorscriptslogic.js
-        UI_InPos.js
-        calculatorstyles.css
+| ขั้นตอน | Time Complexity | Space Complexity | คำอธิบาย |
+| :--- | :---: | :---: | :--- |
+| **Infix $\rightarrow$ Postfix** | $O(n)$ | $O(n)$ | อ่านโทเค็น $n$ ตัวรอบเดียว โดยแต่ละโทเค็นเข้า/ออก Stack สูงสุด 1 ครั้ง |
+| **Postfix Evaluation** | $O(n)$ | $O(n)$ | ประมวลผลโทเค็นใน Postfix Expression ด้วย Stack |
 
-        Logic แยกจาก UI อย่างชัดเจน
-        ใช้ Class-based structure
-        ใช้ Module import/export
+---
 
-    สิ่งที่ได้เรียนรู้ :
-        การออกแบบ Stack Machine
-        การจัดการ State ระหว่าง Step
-        การออกแบบ Execution Trace
-        การแยก Logic กับ UI
-        การเขียนระบบที่รองรับหลายโหมด (Convert / Full Process)
+## 📁 โครงสร้างไฟล์ (File Structure)
 
-    จุดเด่นของโปรเจคนี้ :
-        ไม่ใช่แค่คำนวณ แต่ “อธิบายขั้นตอน”
-        มี Visualization ของ Stack
-        มีระบบ History
-        รองรับ Edge Case หลายแบบ
-        โครงสร้างโค้ดชัดเจน (ไม่เขียนทุกอย่างในไฟล์เดียว)
+```text
+Infix to Posfix/
+├── calculatorlogic.html                   # หน้าเว็บหลักของโมดูล
+├── scripts/
+│   ├── calculatorscriptslogic.js          # Engine คำนวณ Infix to Postfix และประเมินผลลัพธ์
+│   ├── UI_InPos.js                        # จัดการการแสดงผล UI, แอนิเมชัน Stack และ Step Controls
+│   └── algorithm.js                       # ตรรกะและโครงสร้างข้อมูลเสริม
+├── styles/
+│   └── calculatorstyles.css               # สไตล์ Dark Theme และการจัดวาง Stack Layout
+└── README.md                              # เอกสารประจำโมดูล
+```
 
-    เหมาะกับ :
-        ใช้เป็นสื่อสอน Data Structure (Stack)
-        ใช้เป็นตัวอย่าง Algorithm Visualization
-        ใช้เป็นพื้นฐาน Interpreter / Compiler ในอนาคต
+---
 
-    ผู้พัฒนา :
-        นักศึกษาสาขาวิศวกรรมคอมพิวเตอร์และการสื่อสาร
+## 💡 สิ่งที่ได้เรียนรู้จากโมดูลนี้
+- การประยุกต์ใช้ Stack เพื่อแปลงและประเมินค่านิพจน์คณิตศาสตร์
+- การออกแบบระบบจำลองขั้นตอนการทำงาน (Step Trace Engine)
+- การจัดการสถาปัตยกรรมโค้ดโดยแยก Logic การคำนวณออกจาก UI Rendering

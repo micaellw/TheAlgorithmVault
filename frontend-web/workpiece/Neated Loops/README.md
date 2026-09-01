@@ -1,114 +1,53 @@
-Visual Pattern Studio – Nested Loop Visualization
+# ✨ Visual Pattern Studio (Nested Loops Visualizer)
 
-    ส่วนหนึ่งของโปรเจค: The Algorithm Vault
+> **โมดูลในโปรเจกต์:** [The Algorithm Vault](../../README.md)
 
-    ภาพรวมโปรเจค :
-        Visual Pattern Studio เป็นระบบจำลองการทำงานของ Nested Loop (ลูปซ้อน)
-        เพื่อสร้าง Pattern บน Grid 2 มิติ พร้อมแสดงขั้นตอนการทำงานแบบ Step-by-Step
+ระบบจำลองการทำงานของ **Nested Loops (ลูปซ้อนลูป)** เพื่อสร้างรูปทรงเรขาคณิตและลวดลายต่าง ๆ บน Grid 2 มิติ พัฒนาขึ้นเพื่อฝึกฝนการคิดเชิงตรรกะแบบบูลีน (Boolean Logic) และทำความเข้าใจพิกัดแถว-คอลัมน์ $(i, j)$ ผ่านแอนิเมชันทีละเซลล์
 
-    ผู้ใช้สามารถเลือก:
-        ประเภท Pattern
-        ขนาด Grid
-        โหมดวาดทีละขั้น หรือวาดอัตโนมัติ
+---
 
-    จุดประสงค์ของโปรเจค :
-        โปรเจคนี้พัฒนาเพื่อ :
-            ฝึกการคิดเชิงตรรกะ (Boolean Logic)
-            เข้าใจโครงสร้าง Nested Loop
-            วิเคราะห์ Time Complexity O(n²)
-            เข้าใจ Manhattan Distance
-            ออกแบบ State Machine สำหรับ Animation
+## 🎯 ฟีเจอร์หลัก (Features)
 
-        แนวคิดหลัก :
-            ทุก Pattern ถูกนิยามเป็นฟังก์ชันบูลีน:
-            G(i, j) = F(i, j, n)
-            โดย:
-            i = แถว
-            j = คอลัมน์
-            n = ขนาดกริด
-            Nested Loop ทำหน้าที่ evaluate F(i, j, n) สำหรับทุก cell
+### 1. ลวดลายที่รองรับ (Supported Patterns)
+- **สี่เหลี่ยม:** Square, Hollow Square
+- **สามเหลี่ยมและปิรามิด:** Right Triangle, Pyramid, Inverted Pyramid
+- **ทรงเพชร:** Diamond, Hollow Diamond (ใช้สูตร Manhattan Distance $|i - mid| + |j - mid| \le mid$)
+- **ลวดลายอื่น ๆ:** Checkerboard (ตารางหมากรุก), X-Cross, Plus, Sandglass (นาฬิกาทรายทึบ/โปร่ง)
 
-        Pattern ที่รองรับ :
-            Square
-            Hollow Square
-            Triangle
-            Right Triangle
-            Pyramid
-            Diamond
-            Hollow Diamond
-            Checkerboard
-            X-Cross
-            Plus
-            Inverted Pyramid
-            Sandglass (ทึบ / โปร่ง)
+### 2. Step-by-Step Logic Trace
+- แสดงค่าดัชนีรอบนอก ($i$) และรอบใน ($j$) แบบ Real-time
+- ไฮไลต์เซลล์ที่กำลังถูกประเมิน และแสดงสูตรเงื่อนไขบูลีนที่ใช้ตัดสินใจว่าจะระบายสีหรือไม่
 
-        โครงสร้างระบบ :
-            ระบบทำงานตาม Flow นี้ :
-            User Input
-               ↓
-            Generate Steps[]
-               ↓
-            Render Cell
-               ↓
-            Update State
+### 3. Interactive Controls
+- ปรับขนาดของ Grid ได้อย่างยืดหยุ่น
+- มีทั้งโหมดวาดอัตโนมัติ (Auto Run) และโหมดกดทีละขั้น (Step by Step) พร้อมปรับความเร็วได้
 
-            ทุก Cell จะถูกประเมินเงื่อนไขก่อนแสดงผล
-            ไม่มีการ render แบบสุ่ม
+---
 
-        Time & Space Complexity :
-            Time Complexity :
-                T(n) = n²
-                Outer loop = n
-                Inner loop = n
-                Total evaluation = n × n
-                Worst-case = O(n²)
+## ⏱️ ความซับซ้อนของการทำงาน (Complexity)
 
-            Memory Complexity :
-                ระบบใช้ :
-                gridState → O(n²)
-                steps[] → O(n²)
-                รวม Memory = O(n²)
+| มิติ | ค่า Complexity | คำอธิบาย |
+| :--- | :---: | :--- |
+| **Time Complexity** | $O(n^2)$ | ลูปแถว $n$ รอบ ซ้อนด้วยลูปคอลัมน์ $n$ รอบ มีการประเมินเงื่อนไขทั้งหมด $n \times n$ ครั้ง |
+| **Space Complexity** | $O(n^2)$ | สำหรับจัดเก็บสถานะเซลล์ของ Grid และ Step Array |
 
-        ตัวอย่าง Logic :
-            Diamond :
-                |i - mid| + |j - mid| <= mid
-                ใช้ Manhattan Distance แทน Euclidean
-                เพราะคำนวณเร็วกว่าใน Grid แบบ Discrete
+---
 
-        โครงสร้างไฟล์ :
-            Pattern_Studio.html
-            AlgorithmPattern.js
-            PatternStyle.css
+## 📁 โครงสร้างไฟล์ (File Structure)
 
-            Logic แยกจาก UI
-            ใช้ Class-based design
-            ใช้ Steps Array ควบคุม Animation
+```text
+Neated Loops/
+├── Pattern_Studio.html                    # หน้าเว็บหลักของโมดูล
+├── scripts/
+│   └── AlgorithmPattern.js                # ตรรกะเงื่อนไขรูปทรงเรขาคณิต และการคุม Animation Grid
+├── styles/
+│   └── PatternStyle.css                   # สไตล์ Dark Theme และการจัดวางตาราง Grid
+└── README.md                              # เอกสารประจำโมดูล
+```
 
-        จุดเด่นเชิงวิศวกรรม :
-            ใช้ Boolean Pattern Dictionary
-            รองรับ Pattern ใหม่ได้ง่าย (เพิ่ม case)
-            มี State Machine Animation
-            แสดงค่า i, j แบบ Real-time
-            แสดงเงื่อนไขที่กำลังถูก evaluate
+---
 
-        สิ่งที่ได้เรียนรู้ :
-            Nested Loop Architecture
-            Boolean Geometry Modeling
-            Manhattan Distance Application
-            Algorithm Visualization Design
-            State Transition Modeling
-
-        เหมาะกับ :
-            วิชา Programming 1
-            วิชา Algorithm
-            การสอน Loop Logic
-            ฝึกตรรกะเชิงคณิตศาสตร์
-    
-    ผู้พัฒนา :
-        นักศึกษาวิศวกรรมคอมพิวเตอร์และการสื่อสาร
-        
-        สนใจด้าน:
-            Algorithm Design
-            Data Structure
-            Logical System Modeling
-            Software Engineering
+## 💡 สิ่งที่ได้เรียนรู้จากโมดูลนี้
+- การแปลงเงื่อนไขทางเรขาคณิตเป็นสมการทางคณิตศาสตร์และตรรกะบูลีน
+- การประยุกต์ใช้ Manhattan Distance สำหรับคำนวณรูปร่างเพชรบน Discrete Grid
+- การสร้าง State Machine จำลองการเดินของลูป 2 มิติ
