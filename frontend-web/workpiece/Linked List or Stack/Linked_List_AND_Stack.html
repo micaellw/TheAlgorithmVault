@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Structure Lab - The Algorithm Vault</title>
+
+    <link rel="stylesheet" href="../../styles/StyleMenu.css">
+    <link rel="stylesheet" href="./styles/Node.css">
+    <link rel="stylesheet" href="../../styles/StyleIntroduction.css">
+    <link rel="stylesheet" href="../../styles/stylearticle.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+
+    <style>
+        html,
+        body {
+            background-color: #0b0e14 !important;
+            /* ใช้สีเดียวกับ --bg-color ของคุณ */
+        }
+    </style>
+
+</head>
+
+<body>
+    <nav id="content-placeholder"></nav>
+
+    <nav id="paginative"></nav>
+    <nav class="selectswitch">
+        <p class="List-AND-Stack">SelectswitchAnimation For Linked List AND Stack</p>
+        <nav class="Switch-List-AND-Stack">
+            <div class="Linked-switch Data-Structure-Lab">Linked List</div>
+            <div class="Stack-switch Data-Structure-Lab">Stack</div>
+        </nav>
+    </nav>
+    <div class="container">
+
+
+
+        <section class="page one LinkedList-AND-Stack">
+            <div class="Linkedlist Data-Structure">
+
+                <h1 class="rainbow"
+                    style="color:var(--neon-green); font-size:1.3em; cursor:default; transform:none; margin-bottom: 50px;">
+                    🔗 Linked List Lab : The Final Fix
+                </h1>
+
+                <div class="visualizer-container">
+                    <div id="visual-canvas" class="list-canvas"></div>
+                    <div class="status-box-node" id="algo-status-Linked-List">ระบบพร้อมใช้งาน...</div>
+
+                    <div class="controls">
+                        <input type="number" id="main-input" placeholder="ตัวเลข">
+                        <button id="add-btn-Linked-List">Add First</button>
+                        <button id="del-btn-Linked-List">Delete Node</button>
+                        <button id="next-btn-Linked-List" disabled>ขั้นตอนต่อไป ⟹</button>
+                        <button id="reset-btn-Linked-List">รีเซ็ต</button>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="StackLab Data-Structure">
+                <h1 class="rainbow"
+                    style="color:var(--neon-green); font-size:1.3em; cursor:default; transform:none; margin-bottom: 50px;">
+                    📚 Stack Lab: LIFO Principle</h1>
+
+                <div class="lab-container">
+                    <div class="visualizer-zone">
+                        <h3 id="stack-text"></h3>
+                        <div class="stack-container" id="stack-view">
+                        </div>
+                        <div id="stack-algo-status" class="status-box-node" style="width: 100%; margin-top: 20px;">
+                            พร้อมสำหรับการทดลอง...</div>
+                    </div>
+
+                    <div class="controls-zone">
+                        <div class="btn-group">
+                            <input type="number" id="stack-input" placeholder="ค่าตัวเลข"
+                                style="width: 80px; background: #0d1117; color: white; border: 1px solid #30363d; padding: 10px; border-radius: 5px;">
+                            <button id="push-btn">Push</button>
+                            <button id="pop-btn">Pop</button>
+                            <button id="stack-next-btn" disabled>Next Step ⟹</button>
+                            <button id="stack-reset-btn">Reset</button>
+                        </div>
+                        <div class="code-compare"
+                            style="background: #0d1117; padding: 15px; border-radius: 10px; border: 1px solid #30363d;">
+                            <h4 style="margin-top: 0; color: var(--neon-purple);">Java Logic (Original)</h4>
+                            <pre style="font-size: 12px; color: #8b949e;">
+    public void push(int x) {
+        if(top >= size-1) return; // Overflow
+        stack[++top] = x;
+    }</pre>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section class="page two">
+
+            <nav id="vault-index"></nav>
+
+            <section class="explanation-container">
+
+                <header class="project-header">
+                    <h1>Structure Comparison: Dynamic vs Static</h1>
+                    <p class="tagline">
+                        การวิเคราะห์เชิงวิจัยของ Linked List และ Stack ในมุมมอง Memory Model,
+                        Time Complexity, และ Execution Architecture
+                    </p>
+                </header>
+
+                <!-- ================= ABSTRACT ================= -->
+
+                <div class="algorithm-brief">
+                    <h3>บทคัดย่อ (Abstract)</h3>
+                    <p>
+                        บทความนี้นำเสนอการวิเคราะห์เชิงลึกของโครงสร้างข้อมูลสองชนิด ได้แก่
+                        <strong>Linked List (Dynamic Memory Model)</strong> และ
+                        <strong>Stack (Static / Contiguous Memory Model)</strong>
+                        ผ่านมุมมองทั้งเชิงทฤษฎีและเชิงปฏิบัติ โดยอ้างอิงจาก implementation จริงใน Java และ JavaScript
+                        ที่ใช้ในระบบ Visual Lab นี้
+                    </p>
+                    <p>
+                        การวิเคราะห์ครอบคลุมกลไกการจัดสรรหน่วยความจำ,
+                        โครงสร้าง Pointer vs Index-based Access,
+                        Time Complexity (Worst / Average / Amortized),
+                        Memory Complexity เชิง Big-O,
+                        Cache Locality และ CPU Behavior
+                        ตลอดจน State-driven Algorithm Simulation Architecture
+                    </p>
+                    <p>
+                        เป้าหมายของบทความคือทำให้ผู้อ่านสามารถเข้าใจโครงสร้างระดับระบบ
+                        และสามารถสร้างโมเดลของตนเองได้อย่างถูกต้องตามหลักวิชาการ
+                    </p>
+                </div>
+
+                <!-- ================= LINKED LIST ================= -->
+
+                <div class="code-compare-section">
+                    <div class="article">
+                        <h3>1. Linked List: Dynamic Memory Architecture</h3>
+
+                        <h4>1.1 โครงสร้างเชิงทฤษฎี</h4>
+                        <p>
+                            Linked List เป็นโครงสร้างข้อมูลแบบ Node-based Dynamic Structure
+                            โดยแต่ละโหนดประกอบด้วย:
+                        </p>
+
+                        <pre><code class="language-java">
+Node = { data, next }
+</code></pre>
+
+                        <p>ในเชิงหน่วยความจำ:</p>
+
+                        <pre><code class="language-java">
+Memory = Σ (Data_i + Pointer_i)
+</code></pre>
+
+                        <p>
+                            โครงสร้างนี้ไม่มี contiguous allocation และใช้ heap allocation ทีละ node
+                            เชื่อมโยงกันด้วย pointer
+                        </p>
+
+                        <h4>1.2 Time Complexity</h4>
+
+                        <pre><code class="language-java">
+Insert Head      : O(1)
+Delete Head      : O(1)
+Search           : O(n)
+Delete by value  : O(n)
+</code></pre>
+
+                        <h4>1.3 Memory Complexity</h4>
+
+                        <pre><code class="language-java">
+Space(n) = n × (Data + Pointer)
+Memory Complexity = O(n)
+</code></pre>
+
+                        <p>
+                            บนระบบ 64-bit pointer มีขนาด 8 bytes
+                            หาก data เป็น int (4 bytes) จะมี overhead ต่อ node สูงกว่า array อย่างมีนัยสำคัญ
+                        </p>
+
+                        <h4>1.4 Cache Locality Impact</h4>
+                        <p>
+                            Linked List มี poor spatial locality เนื่องจาก pointer
+                            ทำให้เกิด cache miss และ pointer chasing cost สูง
+                        </p>
+
+                        <h4>1.5 Mapping กับ Implementation ในโปรเจคนี้</h4>
+
+                        <pre><code class="language-javascript">
+let nodes = [10, 25, 40, 55];
+</code></pre>
+
+                        <p>
+                            แม้ใช้ Array เป็น storage จริง
+                            แต่ algorithm ถูกจำลองแบบ pointer traversal
+                            ผ่าน state-driven animation
+                        </p>
+                    </div>
+
+                    <!-- ================= STACK ================= -->
+
+                    <div class="article">
+                        <h3>2. Stack: Static Contiguous Model</h3>
+
+                        <h4>2.1 ทฤษฎีพื้นฐาน</h4>
+
+                        <pre><code class="language-java">
+Push(x) → Top = Top + 1
+Pop()   → Top = Top - 1
+</code></pre>
+
+                        <h4>2.2 Java Implementation Model</h4>
+
+                        <pre><code class="language-java">
+public void push(int x) {
+    if(top >= size-1) return;
+    stack[++top] = x;
+}
+</code></pre>
+
+                        <h4>2.3 Time Complexity</h4>
+
+                        <pre><code class="language-java">
+Push : O(1)
+Pop  : O(1)
+Peek : O(1)
+</code></pre>
+
+                        <h4>2.4 Memory Complexity</h4>
+
+                        <pre><code class="language-java">
+Space(n) = O(N_max)
+</code></pre>
+
+                        <p>
+                            Stack แบบ static array จะจองหน่วยความจำเต็มตามขนาดสูงสุด
+                            แม้ใช้งานจริงจะไม่เต็ม
+                        </p>
+
+                        <h4>2.5 Cache Efficiency</h4>
+                        <p>
+                            Stack แบบ array มี excellent spatial locality
+                            เนื่องจากข้อมูลเรียงต่อเนื่องในหน่วยความจำ
+                        </p>
+                    </div>
+                </div>
+
+                <!-- ================= COMPARATIVE ANALYSIS ================= -->
+
+                <section class="complexity-analysis">
+
+                    <div class="analysis-grid">
+
+                        <div class="analysis-card">
+                            <h3>3. Comparative Structural Analysis</h3>
+
+                            <pre><code class="language-java">
+LinkedList : Dynamic Allocation (Heap per node)
+Stack      : Static Contiguous Allocation
+</code></pre>
+
+                            <pre><code class="language-java">
+LinkedList Memory = O(n)
+Stack Memory      = O(N_max)
+</code></pre>
+
+                            <p>
+                                แม้บาง operation จะมี Big-O เท่ากัน
+                                แต่ constant factor และ cache behavior แตกต่างกันอย่างมาก
+                            </p>
+                        </div>
+
+                        <div class="analysis-card">
+                            <h3>4. Formal Memory Proof</h3>
+
+                            <pre><code class="language-java">
+LinkedList:
+S(n) = n(c_d + c_p)
+⇒ Θ(n)
+
+Stack:
+S(n) = N_max × c_d
+⇒ O(N_max)
+</code></pre>
+
+                            <p>
+                                Linked List มี pointer overhead
+                                ในขณะที่ Stack มี memory waste หากใช้งานไม่เต็ม capacity
+                            </p>
+                        </div>
+
+                    </div>
+
+                </section>
+
+                <!-- ================= ADVANCED INSIGHT ================= -->
+
+                <div class="algorithm-brief">
+                    <h3>5. Advanced System-Level Insight</h3>
+
+                    <p><strong>Linked List เหมาะเมื่อ:</strong></p>
+                    <ul>
+                        <li>ขนาดข้อมูลไม่แน่นอน</li>
+                        <li>มี insertion/deletion บ่อย</li>
+                        <li>ไม่ต้องการ random access</li>
+                    </ul>
+
+                    <p><strong>Stack เหมาะเมื่อ:</strong></p>
+                    <ul>
+                        <li>ต้องการ LIFO execution</li>
+                        <li>ต้องการ performance สูง</li>
+                        <li>ต้องการ cache efficiency</li>
+                    </ul>
+
+                    <p>
+                        ในระดับระบบจริง Stack แบบ Array มักเร็วกว่า Linked List
+                        แม้ Big-O จะเหมือนกันในบางกรณี
+                        เนื่องจาก pointer dereference cost และ cache miss penalty
+                    </p>
+                </div>
+
+                <!-- ================= FINAL CONCLUSION ================= -->
+
+                <div class="algorithm-brief">
+                    <h3>6. บทสรุปเชิงวิจัย</h3>
+                    <p>
+                        ระบบ Lab นี้ไม่ได้เพียงสอนโครงสร้างข้อมูล
+                        แต่สอน Memory Reasoning, Algorithm State Modeling,
+                        และ Performance Analysis
+                    </p>
+                    <p>
+                        โครงสร้าง Dynamic และ Static มี trade-off ที่แตกต่างกันชัดเจน
+                        และควรเลือกใช้ตามบริบทของระบบ
+                    </p>
+                    <p>
+                        โครงสร้างนี้สามารถใช้เป็น:
+                        - สื่อการสอนระดับมหาวิทยาลัย
+                        - Lab วิชา Data Structures
+                        - หรือพื้นฐานสำหรับงานวิจัยด้าน Algorithm Visualization
+                    </p>
+                </div>
+
+            </section>
+
+        </section>
+
+        <nav id="menuactive"></nav>
+
+    </div>
+    <script type="module" src="../../scripts/PageLayout.js"></script>
+    <script type="module" src="./scripts/StyleUI.js"></script>
+</body>
+
+</html>

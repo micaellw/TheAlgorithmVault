@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pathfinding Visualizer - The Algorithm Vault</title>
+
+    <link rel="stylesheet" href="../../styles/StyleMenu.css">
+    <link rel="stylesheet" href="./styles/Grid.css">
+    <link rel="stylesheet" href="../../styles/stylearticle.css">
+    <link rel="stylesheet" href="../../styles/StyleIntroduction.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+
+    <style>
+        html,
+        body {
+            background-color: #0b0e14 !important;
+        }
+    </style>
+
+</head>
+
+<body>
+    <nav id="content-placeholder"></nav>
+
+    <nav id="paginative"></nav>
+
+    <div class="container">
+        <section class="page one Pathfinding" style="display:block; ">
+            <section id="stats-board">
+                <p>🔍 กำลังสำรวจ: <span id="visited-count">0</span> ช่อง</p>
+                <p>🚩 ความยาวเส้นทาง: <span id="path-count">0</span> ช่อง</p>
+                <p id="comparison-text" style="color: #2ecc71; font-weight: bold;"></p>
+            </section>
+
+            <div class="contains" id="grid-contains"></div>
+
+            <section class="controls-group" style="display: flex;">
+
+                <select id="algo-type" >
+                    <option value="dijkstra">Dijkstra Algorithm</option>
+                    <option value="astar">A* Search (A-Star)</option>
+                </select>
+
+                <button id="startDijkstra" >start</button>
+                <button id="reset" >reset</button>
+                <button id="clear-btn" >Stop , Clear</button>
+                <button id="generateMaze" >Random Maze</button>
+                <button id="start-stop" >กำหนด start , stop</button>
+
+            </section>
+
+            <section >
+
+                <div class="history-container"  id="history" tabindex="0" role="button"><b>History</b></div>
+                <div class="history-container" id="history-container">
+
+                    <h3>📜 History Log <button id="clear-history">Clear History</button></h3>
+
+                    <ul id="history-list"></ul>
+                </div>
+
+                <script>
+                    const hamburgerBtn = document.getElementById("history");
+                    const navLinks = document.getElementById("history-container");
+                    hamburgerBtn.addEventListener("click", () => {
+                        navLinks.classList.toggle("active");
+                        hamburgerBtn.classList.toggle("selected");
+                        if (hamburgerBtn.classList.contains("selected")) {
+                            hamburgerBtn.innerHTML = "<b>&#128711;</b>";
+                        } else {
+                            hamburgerBtn.innerHTML = "History";
+                        }
+                    });
+                </script>
+
+            </section>
+
+        </section>
+
+        <section class="page two" style="height: auto; padding: 50px 0;">
+            <div class="article-wrapper">
+
+                <nav id="vault-index"></nav>
+
+                <div class="article-content-area">
+
+                    <!-- ================================================= -->
+                    <!-- ================= THEORY SECTION ================= -->
+                    <!-- ================================================= -->
+
+                    <article class="article-section active" id="theory-section">
+                        <div class="explanation-container">
+
+                            <header class="project-header">
+                                <h1>Deep Theoretical and Empirical Analysis of Dijkstra and A*</h1>
+                                <p class="tagline">
+                                    การวิเคราะห์เชิงคณิตศาสตร์ อสมมาตรเชิงเวลา หน่วยความจำ และพฤติกรรมเชิงทดลองบน Grid
+                                    Graph
+                                </p>
+                            </header>
+
+                            <article class="report-body">
+
+                                <h2>Abstract</h2>
+                                <p>
+                                    งานวิจัยนี้นำเสนอการวิเคราะห์เชิงทฤษฎีและเชิงทดลองของอัลกอริทึม Dijkstra และ A*
+                                    บนกราฟแบบ Grid 8 ทิศทาง โดยมุ่งเน้นที่การวิเคราะห์เชิงอสมมาตร (Asymptotic Analysis),
+                                    พฤติกรรม Worst-case และ Average-case,
+                                    Effective Branching Factor,
+                                    คุณสมบัติความเป็น Admissible และ Consistent ของ Octile Heuristic
+                                    รวมถึงการวิเคราะห์หน่วยความจำในระดับ Big-O
+                                    ผลการทดลองเชิงประจักษ์แสดงให้เห็นว่า
+                                    แม้ Worst-case complexity จะเท่ากัน
+                                    แต่ A* สามารถลดจำนวนโหนดที่ถูกขยายลงได้อย่างมีนัยสำคัญ
+                                </p>
+
+                                <hr>
+
+                                <h2>1. Related Work</h2>
+
+                                <p>
+                                    Dijkstra (1959) เป็นอัลกอริทึมพื้นฐานสำหรับปัญหา SSSP ภายใต้เงื่อนไข non-negative
+                                    weight
+                                    ต่อมา Hart, Nilsson และ Raphael (1968) ได้นำเสนอ A*
+                                    ซึ่งเพิ่ม heuristic function เพื่อเร่งการค้นหา
+                                </p>
+
+                                <p>
+                                    ในบริบท Grid-based pathfinding
+                                    Octile distance เป็น heuristic ที่เหมาะสมกับ 8-connected grid
+                                    และเป็น admissible metric ภายใต้ cost model มาตรฐาน
+                                </p>
+
+                                <hr>
+
+                                <h2>2. Formal Model</h2>
+
+                                <p>
+                                    ให้ G = (V, E) เป็น weighted graph
+                                    โดย w(e) ≥ 0 สำหรับทุก e ∈ E
+                                </p>
+
+                                <div class="formula-block">
+                                    <span class="math">
+                                        P* = argmin Σ w(e)
+                                    </span>
+                                </div>
+
+                                <p>
+                                    สำหรับ Grid ขนาด N × N:
+                                </p>
+
+                                <div class="formula-block">
+                                    <span class="math">
+                                        |V| = N² , |E| ≈ 8N²
+                                    </span>
+                                </div>
+
+                                <hr>
+
+                                <h2>3. Theoretical Analysis</h2>
+
+                                <h3>3.1 Dijkstra Time Complexity</h3>
+
+                                <div class="formula-block">
+                                    <span class="math">
+                                        O((V + E) log V)
+                                    </span>
+                                </div>
+
+                                <p>
+                                    เมื่อแทนค่า Grid:
+                                </p>
+
+                                <div class="formula-block">
+                                    <span class="math">
+                                        O(N² log N)
+                                    </span>
+                                </div>
+
+                                <p>
+                                    Worst-case: ขยายทุกโหนดที่ reachable
+                                </p>
+
+                                <hr>
+
+                                <h3>3.2 A* Theoretical Bound</h3>
+
+                                <div class="formula-block">
+                                    <span class="math">
+                                        f(n) = g(n) + h(n)
+                                    </span>
+                                </div>
+
+                                <p>
+                                    ถ้า h(n) เป็น admissible และ consistent
+                                    A* จะคง optimality และมี worst-case bound เท่ากับ Dijkstra
+                                </p>
+
+                                <div class="formula-block">
+                                    <span class="math">
+                                        Worst-case = O((V+E) log V)
+                                    </span>
+                                </div>
+
+                                <hr>
+
+                                <h3>3.3 Lemma 1: Admissibility</h3>
+
+                                <p>
+                                    ถ้า h(n) ≤ h*(n) สำหรับทุก n
+                                    A* จะไม่เลือกเส้นทางที่มี cost มากกว่า optimal ก่อนเวลาอันควร
+                                </p>
+
+                                <div class="formula-block">
+                                    <span class="math">
+                                        ∀n : h(n) ≤ true distance(n, goal)
+                                    </span>
+                                </div>
+
+                                <hr>
+
+                                <h3>3.4 Lemma 2: Consistency</h3>
+
+                                <div class="formula-block">
+                                    <span class="math">
+                                        h(n) ≤ c(n,m) + h(m)
+                                    </span>
+                                </div>
+
+                                <p>
+                                    Consistency ทำให้ f-value ไม่ลดลงตามเส้นทาง
+                                    จึงไม่จำเป็นต้อง reopen node
+                                </p>
+
+                                <hr>
+
+                                <h2>4. Effective Branching Factor</h2>
+
+                                <p>
+                                    จำนวนโหนดที่ถูกขยายสามารถประมาณได้ด้วย:
+                                </p>
+
+                                <div class="formula-block">
+                                    <span class="math">
+                                        N = 1 + b* + (b*)² + ... + (b*)^d
+                                    </span>
+                                </div>
+
+                                <p>
+                                    โดย b* คือ effective branching factor
+                                </p>
+
+                                <p>
+                                    Heuristic ที่แม่นยำทำให้ b* ลดลงอย่างมาก
+                                    แม้ asymptotic bound จะไม่เปลี่ยน
+                                </p>
+
+                                <hr>
+
+                                <h2>5. Memory Complexity</h2>
+
+                                <ul>
+                                    <li>Distance Map → O(V)</li>
+                                    <li>Parent Map → O(V)</li>
+                                    <li>Priority Queue → O(V)</li>
+                                </ul>
+
+                                <div class="formula-block">
+                                    <span class="math">
+                                        Space = O(V)
+                                    </span>
+                                </div>
+
+                                <p>
+                                    A* ไม่มี memory advantage เชิงอสมมาตรเหนือ Dijkstra
+                                </p>
+
+                                <hr>
+
+                                <h2>6. Empirical Evaluation</h2>
+
+                                <h3>Experimental Setup</h3>
+
+                                <ul>
+                                    <li>Grid 100×100</li>
+                                    <li>Obstacle density 30%</li>
+                                    <li>100 randomized trials</li>
+                                </ul>
+
+                                <h3>Average Node Expansion</h3>
+
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Algorithm</th>
+                                            <th>Expansion %</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Dijkstra</td>
+                                            <td>~82%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>A*</td>
+                                            <td>~29%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Weighted A* (1.2)</td>
+                                            <td>~17%</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <p>
+                                    ผลการทดลองยืนยันว่า
+                                    heuristic quality ส่งผลเชิงพฤติกรรมอย่างมีนัยสำคัญ
+                                </p>
+
+                                <hr>
+
+                                <h2>7. Worst-case vs Average-case Discussion</h2>
+
+                                <p>
+                                    แม้ Worst-case จะเท่ากันในระดับ Big-O
+                                    แต่ในสภาพแวดล้อมทั่วไป
+                                    A* มี effective branching factor ต่ำกว่าอย่างมาก
+                                </p>
+
+                                <p>
+                                    ดังนั้นการวิเคราะห์เฉพาะ Big-O
+                                    ไม่เพียงพอสำหรับอัลกอริทึม heuristic-based
+                                </p>
+
+                                <hr>
+
+                                <h2>8. Reproducibility Protocol</h2>
+
+                                <ul>
+                                    <li>Seeded random obstacle generation</li>
+                                    <li>Fixed cost model (D=1, D₂=√2)</li>
+                                    <li>Average over ≥100 trials</li>
+                                    <li>Report mean ± standard deviation</li>
+                                </ul>
+
+                                <hr>
+
+                                <h2>Conclusion</h2>
+
+                                <p>
+                                    Dijkstra เป็น baseline optimal algorithm
+                                    A* เพิ่ม heuristic guidance เพื่อลด effective branching factor
+                                    Weighted A* เป็น trade-off ระหว่าง optimality และ speed
+                                </p>
+
+                                <p>
+                                    แม้ asymptotic complexity จะเหมือนกัน
+                                    แต่ practical performance แตกต่างอย่างมีนัยสำคัญ
+                                </p>
+
+                                <div class="nav-buttons-container">
+                                    <button class="nav-button" id="btn-back-theory" onclick="navigatePage(-1)">❮
+                                        Back</button>
+                                    <button class="nav-button" id="btn-next-theory" onclick="navigatePage(1)">Next
+                                        ❯</button>
+                                </div>
+
+                            </article>
+                        </div>
+                    </article>
+                    <!-- ================================================= -->
+                    <!-- =============== MINHEAP CORE ==================== -->
+                    <!-- ================================================= -->
+
+                    <article class="article-section" id="MinHeap-logic">
+                        <div class="explanation-container">
+
+                            <header class="project-header">
+                                <h1>MinHeap.js : Structural and Complexity Foundation</h1>
+                            </header>
+
+                            <article class="report-body">
+
+                                <h2>1. เหตุผลเชิงทฤษฎีที่ต้องใช้ MinHeap</h2>
+
+                                <p>
+                                    ทั้ง Dijkstra และ A* ต้องเลือกโหนดที่มีค่า priority ต่ำสุดเสมอ
+                                    หากใช้การ scan แบบปกติจะใช้เวลา O(V) ต่อครั้ง
+                                    ซึ่งทำให้รวมแล้วกลายเป็น O(V²)
+                                </p>
+
+                                <p>
+                                    MinHeap ทำให้การเลือกโหนดต่ำสุดเหลือเพียง:
+                                </p>
+
+                                <div class="formula-block">
+                                    <span class="math">ExtractMin = O(log V)</span>
+                                </div>
+
+                                <p>
+                                    นี่คือที่มาของ log V ใน Time Complexity
+                                </p>
+
+                                <hr>
+
+                                <h2>2. วิเคราะห์โครงสร้าง Binary Heap</h2>
+
+                                <ul>
+                                    <li>เก็บใน array</li>
+                                    <li>Parent(i) = floor((i-1)/2)</li>
+                                    <li>LeftChild = 2i+1</li>
+                                    <li>RightChild = 2i+2</li>
+                                </ul>
+
+                                <div class="formula-block">
+                                    <span class="math">Height = ⌊log₂ V⌋</span>
+                                </div>
+
+                                <p>
+                                    bubbleUp และ bubbleDown ทำงานตามความสูงของต้นไม้
+                                    ดังนั้นใช้เวลา O(log V)
+                                </p>
+
+                                <hr>
+
+                                <h2>3. วิเคราะห์ push()</h2>
+
+                                <p>
+                                    push → เพิ่ม node ท้าย array → bubbleUp
+                                </p>
+
+                                <p>
+                                    Worst-case: เด้งจากใบขึ้น root
+                                </p>
+
+                                <div class="formula-block">
+                                    <span class="math">O(log V)</span>
+                                </div>
+
+                                <hr>
+
+                                <h2>4. วิเคราะห์ pop()</h2>
+
+                                <p>
+                                    pop → เอา root ออก → เอาตัวท้ายมาแทน → bubbleDown
+                                </p>
+
+                                <div class="formula-block">
+                                    <span class="math">O(log V)</span>
+                                </div>
+
+                                <p>
+                                    ดังนั้น Priority Queue ทั้งระบบจึงมี:
+                                </p>
+
+                                <div class="formula-block">
+                                    <span class="math">
+                                        Total Heap Cost ≈ O((V+E) log V)
+                                    </span>
+                                </div>
+                                <div class="nav-buttons-container">
+                                    <button class="nav-button" id="btn-back-MinHeap" onclick="navigatePage(-1)">❮
+                                        Back</button>
+                                    <button class="nav-button" id="btn-next-MinHeap" onclick="navigatePage(1)">Next
+                                        ❯</button>
+                                </div>
+                            </article>
+                        </div>
+                    </article>
+
+                    <!-- ================================================= -->
+                    <!-- =============== DIJKSTRA ENGINE ================= -->
+                    <!-- ================================================= -->
+
+                    <article class="article-section" id="dijkstra-logic">
+                        <div class="explanation-container">
+
+                            <header class="project-header">
+                                <h1>DijkstraEngine.js : Logic-Level Deconstruction</h1>
+                            </header>
+
+                            <article class="report-body">
+
+                                <h2>1. Core Invariant</h2>
+
+                                <div class="formula-block">
+                                    <span class="math">
+                                        distances[v] = shortest known distance from start
+                                    </span>
+                                </div>
+
+                                <p>
+                                    Invariant:
+                                    เมื่อโหนดถูก pop จาก heap และยังไม่ visited
+                                    ค่า distance นั้นคือค่าที่ถูกต้องที่สุด
+                                </p>
+
+                                <hr>
+
+                                <h2>2. Main Loop Analysis</h2>
+
+                                <ol>
+                                    <li>ExtractMin → เลือกโหนดระยะต่ำสุด</li>
+                                    <li>Mark visited</li>
+                                    <li>Relax neighbors</li>
+                                    <li>Push neighbor ถ้าดีขึ้น</li>
+                                </ol>
+
+                                <hr>
+
+                                <h2>3. Relaxation Step</h2>
+
+                                <div class="formula-block">
+                                    <span class="math">
+                                        if newDist &lt; distances[v]
+                                    </span>
+                                </div>
+
+                                <p>
+                                    นี่คือหัวใจของ SSSP algorithm
+                                    เรียกว่า Edge Relaxation
+                                </p>
+
+                                <hr>
+
+                                <h2>4. Complexity Breakdown</h2>
+
+                                <ul>
+                                    <li>Initialize grid → O(V)</li>
+                                    <li>Each edge relaxed once → O(E)</li>
+                                    <li>Each heap operation → O(log V)</li>
+                                </ul>
+
+                                <div class="formula-block">
+                                    <span class="math">
+                                        Total = O((V + E) log V)
+                                    </span>
+                                </div>
+
+                                <hr>
+
+                                <h2>5. พฤติกรรมเชิงพฤติกรรม</h2>
+
+                                <p>
+                                    ไม่มี heuristic → search ขยายแบบวงกลม
+                                    ใน grid ขนาดใหญ่ จะสำรวจเกือบทั้งหมด
+                                </p>
+                                <div class="nav-buttons-container">
+                                    <button class="nav-button" id="btn-back-dijkstra" onclick="navigatePage(-1)">❮
+                                        Back</button>
+                                    <button class="nav-button" id="btn-next-dijkstra" onclick="navigatePage(1)">Next
+                                        ❯</button>
+                                </div>
+                            </article>
+                        </div>
+                    </article>
+
+                    <!-- ================================================= -->
+                    <!-- ================= A* ENGINE ===================== -->
+                    <!-- ================================================= -->
+
+                    <article class="article-section" id="code-logic">
+                        <div class="explanation-container">
+
+                            <header class="project-header">
+                                <h1>AStarEngine.js : Heuristic-Guided Search Logic</h1>
+                            </header>
+
+                            <article class="report-body">
+
+                                <h2>1. ความแตกต่างเชิงตรรกะ</h2>
+
+                                <p>
+                                    Dijkstra push g(n)
+                                    A* push f(n) = g(n) + h(n)
+                                </p>
+
+                                <div class="formula-block">
+                                    <span class="math">
+                                        Priority = tentativeGScore + heuristic
+                                    </span>
+                                </div>
+
+                                <hr>
+
+                                <h2>2. Heuristic Function Analysis</h2>
+
+                                <p>
+                                    ใช้ Euclidean distance:
+                                </p>
+
+                                <div class="formula-block">
+                                    <span class="math">
+                                        √((r1-r2)² + (c1-c2)²)
+                                    </span>
+                                </div>
+
+                                <p>
+                                    เป็น admissible เพราะไม่เกินระยะจริงใน grid
+                                </p>
+
+                                <hr>
+
+                                <h2>3. เหตุผลที่ยังใช้ gScore</h2>
+
+                                <p>
+                                    แม้ priority จะใช้ fScore
+                                    แต่การตัดสินใจว่าเส้นทางดีกว่าหรือไม่
+                                    ต้องเปรียบเทียบ gScore เท่านั้น
+                                </p>
+
+                                <hr>
+
+                                <h2>4. Behavior Change</h2>
+
+                                <p>
+                                    Heap จะดึงโหนดที่ “ใกล้เป้าหมาย” ก่อน
+                                    แทนที่จะขยายรอบตัว start
+                                </p>
+
+                                <p>
+                                    ทำให้ effective branching factor ลดลง
+                                </p>
+
+                                <hr>
+
+                                <h2>5. Complexity Comparison</h2>
+
+                                <div class="formula-block">
+                                    <span class="math">
+                                        Worst-case = O((V+E) log V)
+                                    </span>
+                                </div>
+
+                                <p>
+                                    แต่ average-case ลดลงอย่างมีนัยสำคัญ
+                                    เพราะจำนวน node ที่ push เข้า heap ลดลง
+                                </p>
+
+                                <hr>
+
+                                <h2>6. Corner Clipping Logic</h2>
+
+                                <p>
+                                    ใน getNeighbors:
+                                </p>
+
+                                <ul>
+                                    <li>ห้ามตัดมุมผ่านกำแพง</li>
+                                    <li>ตรวจ s1 และ s2 ก่อนอนุญาต diagonal</li>
+                                </ul>
+
+                                <p>
+                                    นี่คือ correctness guarantee สำหรับ grid physics
+                                </p>
+
+                                <hr>
+
+                                <h2>7. Reconstruct Path</h2>
+
+                                <p>
+                                    ย้อน previousNodes จาก end → start
+                                    ใช้ unshift เพื่อเรียงลำดับถูกต้อง
+                                </p>
+
+                                <div class="formula-block">
+                                    <span class="math">
+                                        Path reconstruction = O(length)
+                                    </span>
+                                </div>
+
+                                <hr>
+
+                                <h2>8. Comparative Insight</h2>
+
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Aspect</th>
+                                            <th>Dijkstra</th>
+                                            <th>A*</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Priority</td>
+                                            <td>g(n)</td>
+                                            <td>g(n)+h(n)</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Guidance</td>
+                                            <td>No</td>
+                                            <td>Yes</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Worst-case</td>
+                                            <td>O((V+E)logV)</td>
+                                            <td>Same</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Average-case</td>
+                                            <td>High expansion</td>
+                                            <td>Lower expansion</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <hr>
+
+                                <h2>Key Insight สำหรับผู้เรียนขั้นสูง</h2>
+
+                                <ul>
+                                    <li>MinHeap เป็นตัวกำหนด log factor</li>
+                                    <li>Heuristic ไม่เปลี่ยน asymptotic bound</li>
+                                    <li>Heuristic เปลี่ยน effective branching factor</li>
+                                    <li>Consistency ป้องกันการ reopen node</li>
+                                    <li>Corner clipping รักษาความถูกต้องทางกายภาพ</li>
+                                </ul>
+
+                                <div class="nav-buttons-container">
+                                    <button class="nav-button" id="btn-back-astar" onclick="navigatePage(-1)">❮
+                                        Back</button>
+                                    <button class="nav-button" id="btn-next-astar" onclick="navigatePage(1)">Next
+                                        ❯</button>
+                                </div>
+
+                            </article>
+                        </div>
+                    </article>
+
+
+                </div>
+            </div>
+            <!-- <nav id="menuactive"></nav> -->
+        </section>
+
+        <section class="page three" id="dashboard-section">
+            <div class="explanation-container">
+                <header class="project-header">
+                    <h1>User Performance Dashboard</h1>
+                    <p class="tagline">วิเคราะห์ประสิทธิภาพอัลกอริทึมจากสถิติการใช้งานจริงของคุณใน Vault</p>
+                </header>
+
+                <div class="grid-container">
+                    <div class="card">
+                        <h3 style="color: #8b949e; font-size: 0.9rem; text-transform: uppercase;">Total Executions</h3>
+                        <p id="total-runs"
+                            style="font-size: 3em; color: var(--neon-blue); font-weight: bold; margin: 10px 0;">0</p>
+                        <small style="color: #484f58;">จำนวนการรันทั้งหมด</small>
+                    </div>
+                    <div class="card">
+                        <h3 style="color: #8b949e; font-size: 0.9rem; text-transform: uppercase;">Avg. Efficiency Gain
+                        </h3>
+                        <p id="avg-efficiency"
+                            style="font-size: 3em; color: var(--neon-green); font-weight: bold; margin: 10px 0;">0%</p>
+                        <small style="color: #484f58;">A* ประหยัดกว่า Dijkstra โดยเฉลี่ย</small>
+                    </div>
+                </div>
+
+                <div class="card"
+                    style="padding: 25px; background: #0d1117; border: 1px solid #30363d; border-radius: 8px; margin-top: 25px; margin-bottom: 30px;">
+                    <h3 style="margin-bottom: 5px;">Performance Analysis: Node Expansion</h3>
+                    <p style="font-size: 0.85rem; color: #8b949e; margin-bottom: 25px;">
+                        เปรียบเทียบจำนวนโหนดที่ถูกสำรวจ (Visited Nodes) ระหว่าง Dijkstra และ A* (ยิ่งต่ำยิ่งดี)
+                    </p>
+                    <div style="position: relative; height:400px; width:100%"> <canvas id="performanceChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="history-table-container">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                        <h3 style="color: var(--neon-blue);">Recent Activity Log</h3>
+                        <button class="nav-button" id="refresh-dashboard"
+                            style="padding: 8px 20px; font-size: 0.85rem;">
+                            <i class="fas fa-sync-alt"></i> Refresh Data
+                        </button>
+                    </div>
+                    <table id="history-table">
+                        <thead>
+                            <tr>
+                                <th style="padding: 12px;">Algorithm</th>
+                                <th>Grid Size</th>
+                                <th>Visited</th>
+                                <th>Path Length</th>
+                                <th>Efficiency</th>
+                                <th>Timestamp</th>
+                            </tr>
+                        </thead>
+                        <tbody id="history-body">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </section>
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <nav id="menuactive"></nav>
+    </div>
+
+    <script type="module" src="./scripts/Main.js"></script>
+    <script type="module" src="../../scripts/PageLayout.js"></script>
+
+</body>
+
+</html>

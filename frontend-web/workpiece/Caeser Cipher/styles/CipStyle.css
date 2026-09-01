@@ -1,0 +1,104 @@
+.main-grid {
+    display: grid;
+    grid-template-columns: 280px 1fr 300px;
+    gap: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+    align-items: start;
+}
+
+.history-container {
+    background: var(--card-bg);
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid #30363d;
+    height: 600px;
+    display: flex;
+    flex-direction: column;
+}
+
+#history-list {
+    list-style: none;
+    padding: 0;
+    overflow-y: auto;
+    font-size: 0.85em;
+    color: var(--text-main);
+}
+
+.history-item {
+    border-bottom: 1px solid #30363d;
+    padding: 10px 0;
+}
+
+.work-zone {
+    background: var(--card-bg);
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid #30363d;
+}
+
+
+
+.tool-section {
+    background: #0d1117;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 5px;
+    border-left: 5px solid var(--neon-blue);
+}
+
+.status-box {
+    background: #0d1117;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 15px;
+    font-family: monospace;
+    border-left: 4px solid var(--neon-blue);
+    color: var(--neon-blue);
+}
+
+.controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+input {
+    padding: 10px;
+    background: #0d1117;
+    border: 1px solid #30363d;
+    color: white;
+    border-radius: 6px;
+    flex-grow: 1;
+}
+
+.Secur button {
+    padding: 10px 15px;
+    border: 1px solid var(--neon-blue);
+    background: transparent;
+    color: var(--neon-blue);
+    cursor: pointer;
+    border-radius: 6px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.Secur button:hover {
+    background: rgba(88, 166, 255, 0.1);
+}
+
+.stack-box {
+    background: var(--card-bg);
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid #30363d;
+}
+
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0px 1000px #0d1117 inset !important;
+    -webkit-text-fill-color: white !important;
+    transition: background-color 5000s ease-in-out 0s;
+}

@@ -1,0 +1,145 @@
+.hanoi-main-grid {
+            display: grid;
+            grid-template-columns: 280px 1fr 300px;
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+            align-items: start;
+        }
+
+        .hanoi-history-container {
+            background: var(--card-bg);
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid #30363d;
+            height: 600px;
+            display: flex;
+            flex-direction: column;
+
+            button{
+                padding: 10px 15px;
+                border: 1px solid var(--neon-blue);
+                background: transparent;
+                color: var(--neon-blue); 
+                cursor: pointer;
+                border-radius: 6px;
+                font-weight: bold;
+                transition: 0.3s;
+            }
+            button:hover { background: rgba(88, 166, 255, 0.1); }
+        }
+
+        .hanoi-work-zone {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid #30363d;
+            min-height: 500px;
+        }
+
+        /* Tower Visuals */
+        .tower-canvas {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-end;
+            height: 350px;
+            background: #0d1117;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            border-bottom: 8px solid #30363d;
+        }
+
+        .tower-pole {
+            width: 12px;
+            height: 250px;
+            background: #30363d;
+            position: relative;
+            display: flex;
+            flex-direction: column-reverse;
+            align-items: center;
+            border-radius: 6px 6px 0 0;
+            padding-bottom: 1px;
+            transition: background 0.2s;
+        }
+
+        .tower-pole.drag-over {
+            background: #444c56;
+            box-shadow: 0 0 15px var(--neon-blue);
+        }
+
+        .hanoi-disk {
+            height: 24px;
+            border-radius: 12px;
+            margin-bottom: 2px;
+            cursor: grab;
+            transition: transform 0.2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: rgba(0,0,0,0.5);
+            font-weight: bold;
+            font-size: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+
+        .hanoi-disk:active { cursor: grabbing; }
+
+        /* Stats Display */
+        .hanoi-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-family: monospace;
+            font-size: 0.9em;
+        }
+
+        .hanoi-controls { display: flex; gap: 10px; margin-bottom: 20px;   
+            input,button{color:white; background-color: var(--card-bg);} 
+            button{cursor: pointer;}}
+        
+        .hanoi-status {
+            background: #0d1117;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid var(--neon-purple);
+            font-family: monospace;
+            color: var(--neon-purple);
+        }
+
+        .hanoi-monitor-box {
+            background: var(--card-bg);
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid #30363d;
+        }
+
+        #hanoi-history-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            overflow-y: auto; 
+            flex-grow: 1;    
+            scrollbar-width: thin;
+            scrollbar-color: var(--neon-blue) transparent;
+        }
+
+        #hanoi-history-list::-webkit-scrollbar {
+            width: 5px;
+        }
+        #hanoi-history-list::-webkit-scrollbar-thumb {
+            background: var(--neon-blue);
+            border-radius: 10px;
+        }
+
+        #hanoi-history-list li {
+            font-size: 0.85em;
+            padding: 5px 0;
+            border-bottom: 1px solid #21262d;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }

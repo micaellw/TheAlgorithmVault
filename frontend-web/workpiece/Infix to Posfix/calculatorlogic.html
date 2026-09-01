@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Expression Engine - The Algorithm Vault</title>
+
+    <link rel="stylesheet" href="../../styles/StyleMenu.css">
+    <link rel="stylesheet" href="./styles/calculatorstyles.css">
+    <link rel="stylesheet" href="../../styles/StyleIntroduction.css">
+    <link rel="stylesheet" href="../../styles/stylearticle.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script> -->
+
+    <style>
+        html, body {
+            background-color: #0b0e14 !important; /* ใช้สีเดียวกับ --bg-color ของคุณ */
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav id="content-placeholder"></nav>
+    <nav id="paginative"></nav>
+
+
+    <div class="container">
+        <section class="page one infixposfix" style="display: block;">
+            <header>
+                <h1 class="rainbow"
+                    style="color:var(--neon-green); font-size:1.5em; cursor:default; transform:none; margin-bottom: 50px; ">
+                    🧮 Math Engine Lab: Full Integration
+                </h1>
+            </header>
+
+            <main>
+                <div class="main-grid">
+
+                    <section>
+                        <div class="history-container" id="history-container">
+                            <h3>📜 History Log</h3>
+                            <button id="clear-history">Clear History</button> <button
+                                id="clearall-history">ClearAll</button>
+                            <ul id="history-list"></ul>
+                        </div>
+                    </section>
+
+                    <div class="work-zone">
+
+                        <div class="controls">
+                            <input type="text" id="math-input-calculator" placeholder="ตัวอย่าง: (10+2)*5 หรือ A+B*C">
+                            <button id="full-btn-calculator">Full Process</button>
+                            <button id="convert-btn-calculator" >Convert Only</button>
+                            <button id="next-btn-calculator"  disabled
+                                style="border-color: var(--neon-yellow); color: var(--neon-yellow);">Next Step
+                                ⟹</button>
+                            <button id="reset-btn-calculator" 
+                                style="border-color: #f85149; color: #f85149;">Reset</button>
+                        </div>
+
+                        <div id="algo-status-calculetor" class="status-box-calculator">
+                            กรุณากรอกนิพจน์คณิตศาสตร์และเลือกโหมดการทำงาน...</div>
+
+                        <div class="display-line">
+                            <strong style="color: var(--neon-blue);">Step 1: Infix Source (Tokenized)</strong>
+                            <div id="infix-view" class="token-list"></div>
+                        </div>
+
+                        <div class="display-line" style="border-color: var(--neon-yellow);">
+                            <strong style="color: var(--neon-yellow);">Step 2: Postfix Result (Queue)</strong>
+                            <div id="postfix-view" class="token-list"></div>
+                        </div>
+
+                        <div id="final-result-box" class="display-line"
+                            style="border-color: var(--neon-green); display: none;">
+                            <strong style="color: var(--neon-green);">Step 3: Final Calculation Result</strong>
+
+                            <div id="result-view"
+                                style="font-size: 2.8em; color: var(--neon-green); text-align: center; font-weight: bold;">
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="stack-area">
+
+                        <div class="stack-box">
+                            <h5 style="color: var(--neon-yellow);">Operator Stack</h5>
+                            <div class="stack-visual" id="op-stack-view"></div>
+                        </div>
+
+                        <div class="stack-box">
+                            <h5 style="color: var(--neon-blue);">Operand Stack</h5>
+                            <div class="stack-visual" id="num-stack-view"></div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </main>
+            <script type="module" src="./scripts/UI_InPos.js"></script>
+        </section>
+
+        <section class="page two">
+
+            <nav id="vault-index"></nav>
+            
+            <section class="explanation-container">
+
+                <header class="project-header">
+                    <h1>Infix → Postfix Transformation & Evaluation</h1>
+                    <p class="tagline">
+                        การวิเคราะห์เชิงทฤษฎีและเชิงระบบของ Shunting Yard Algorithm
+                        พร้อมการพิสูจน์ความถูกต้องและ Complexity เชิงลึก
+                    </p>
+                </header>
+
+                <!-- ================= ABSTRACT ================= -->
+
+                <div class="algorithm-brief">
+                    <h3>บทคัดย่อ (Abstract)</h3>
+                    <p>
+                        บทความนี้นำเสนอการวิเคราะห์เชิงวิจัยของกระบวนการแปลงนิพจน์
+                        Infix เป็น Postfix และการประเมินผล Postfix
+                        ผ่านโมเดล Stack-based Execution System
+                        ที่ถูกนำไปใช้ใน Math Engine Lab นี้
+                    </p>
+                    <p>
+                        การวิเคราะห์ครอบคลุม:
+                        Formal Algorithm Definition,
+                        Operator Precedence Model,
+                        Worst / Average / Amortized Complexity,
+                        Memory Complexity,
+                        Correctness Proof,
+                        และ Execution Trace Modeling
+                    </p>
+                </div>
+
+                <!-- ================= THEORY ================= -->
+
+                <div class="code-compare-section">
+
+                    <div class="article">
+                        <h3>1. Formal Problem Definition</h3>
+
+                        <p>
+                            ให้ Infix Expression E ที่มีความยาว n tokens
+                            ต้องการแปลงเป็น Postfix Expression P
+                            โดยรักษาลำดับความสำคัญของ Operator
+                        </p>
+
+                        <pre><code class="language-javascripts">
+Operators:
++  -  precedence = 1
+*  /  %  precedence = 2
+(  precedence = 0
+</code></pre>
+
+                        <p>
+                            กำหนด precedence function:
+                        </p>
+
+                        <pre><code class="language-javascripts">precedence(op)
+</code></pre>
+
+                    </div>
+
+                    <div class="article">
+                        <h3>2. Shunting Yard Algorithm</h3>
+
+                        <pre><code class="language-javascripts">
+For each token t in infix:
+    if operand → output
+    if '(' → push to stack
+    if ')' → pop until '('
+    if operator:
+        while precedence(top) >= precedence(t)
+            pop to output
+        push t
+</code></pre>
+
+                        <p>
+                            เมื่อจบ traversal:
+                        </p>
+
+                        <pre><code class="language-javascripts">
+while stack not empty:
+    pop to output
+</code></pre>
+
+                    </div>
+
+                </div>
+
+                <!-- ================= COMPLEXITY ================= -->
+
+                <section class="complexity-analysis">
+
+                    <div class="analysis-grid">
+
+                        <div class="analysis-card">
+                            <h3>3. Time Complexity Analysis</h3>
+
+                            <pre><code class="language-javascripts">
+Let n = number of tokens
+Each token:
+    pushed at most once
+    popped at most once
+</code></pre>
+
+                            <pre><code class="language-javascripts">
+Worst Case  : O(n)
+Average Case: O(n)
+Amortized   : O(n)
+</code></pre>
+
+                            <p>
+                                แม้จะมี while-loop ซ้อน
+                                แต่รวมการ pop ทั้งหมดไม่เกิน n ครั้ง
+                                จึงเป็น Linear Time
+                            </p>
+                        </div>
+
+                        <div class="analysis-card">
+                            <h3>4. Memory Complexity</h3>
+
+                            <pre><code class="language-javascripts">
+Operator Stack ≤ n
+Postfix Output ≤ n
+Operand Stack ≤ n
+</code></pre>
+
+                            <pre><code class="language-javascripts">
+Total Space = O(n)
+</code></pre>
+
+                            <p>
+                                ระบบนี้ใช้ stack สองชุด:
+                                Operator Stack และ Operand Stack
+                                ซึ่งในกรณีเลวร้ายสุดอาจโตถึง O(n)
+                            </p>
+                        </div>
+
+                    </div>
+
+                </section>
+
+                <!-- ================= EVALUATION ================= -->
+
+                <div class="algorithm-brief">
+                    <h3>5. Postfix Evaluation Model</h3>
+
+                    <pre><code class="language-javascripts">
+For each token t in postfix:
+    if operand → push
+    if operator:
+        b = pop()
+        a = pop()
+        push(a op b)
+</code></pre>
+
+                    <p>
+                        Complexity:
+                    </p>
+
+                    <pre><code class="language-javascripts">
+Time  = O(n)
+Space = O(n)
+</code></pre>
+
+                    <p>
+                        การประเมินผลเป็น deterministic stack machine
+                        เทียบเท่า Reverse Polish Notation VM
+                    </p>
+                </div>
+
+                <!-- ================= CORRECTNESS ================= -->
+
+                <div class="algorithm-brief">
+                    <h3>6. Correctness Proof (Sketch)</h3>
+
+                    <p>
+                        พิสูจน์โดย Induction บนจำนวน token:
+                    </p>
+
+                    <pre><code class="language-javascripts">
+Base Case:
+1 operand → correct
+
+Inductive Step:
+Assume k tokens correct
+Token k+1 preserves precedence order
+</code></pre>
+
+                    <p>
+                        การใช้ stack ทำให้:
+                        Higher precedence operators
+                        ถูก evaluate ก่อนเสมอ
+                    </p>
+                </div>
+
+                <!-- ================= IMPLEMENTATION MAPPING ================= -->
+
+                <div class="algorithm-brief">
+                    <h3>7. Mapping to Implementation</h3>
+
+                    <pre><code class="language-javascripts">
+const precedence = {
+ '+':1, '-':1,
+ '*':2, '/':2, '%':2,
+ '(':0
+};
+</code></pre>
+
+                    <pre><code class="language-javascripts">
+while (opStack.length > 0 &&
+       precedence[opStack[top]] >= precedence[char]) {
+    postfixStr += opStack.pop();
+}
+</code></pre>
+
+                    <p>
+                        ระบบ animation ใช้ State Model:
+                    </p>
+
+                    <pre><code class="language-javascripts">
+State_t = {
+    infixIndex,
+    postfixString,
+    opStack,
+    numStack,
+    message
+}
+</code></pre>
+
+                    <p>
+                        ซึ่งเทียบเท่า Execution Trace System
+                        ใน Debugger หรือ Virtual Machine
+                    </p>
+                </div>
+
+                <!-- ================= SYSTEM LEVEL INSIGHT ================= -->
+
+                <div class="algorithm-brief">
+                    <h3>8. System-Level Insight</h3>
+
+                    <ul>
+                        <li>Algorithm เป็น Linear Stack Machine</li>
+                        <li>ไม่มี Backtracking</li>
+                        <li>Deterministic Execution</li>
+                        <li>Space usage predictable</li>
+                    </ul>
+
+                    <p>
+                        โมเดลนี้สามารถขยายไปสู่:
+                        Expression Compiler,
+                        Bytecode Generator,
+                        หรือ Mathematical Interpreter
+                    </p>
+                </div>
+
+                <!-- ================= CONCLUSION ================= -->
+
+                <div class="algorithm-brief">
+                    <h3>9. บทสรุปเชิงวิจัย</h3>
+                    <p>
+                        Infix to Postfix Transformation
+                        เป็นปัญหาคลาสสิกที่แสดงให้เห็นพลังของ Stack
+                        ในการจัดการ Operator Precedence
+                    </p>
+                    <p>
+                        Algorithm นี้มี Time Complexity O(n)
+                        และ Memory Complexity O(n)
+                        พร้อม Proof-based correctness
+                    </p>
+                    <p>
+                        ระบบ Lab นี้ไม่เพียงสอนวิธีแปลงนิพจน์
+                        แต่สอน Execution Modeling และ Stack Machine Architecture
+                    </p>
+                </div>
+
+            </section>
+
+           
+        </section>
+        <nav id="menuactive"></nav>
+
+    </div>
+    <script type="module" src="../../scripts/PageLayout.js"></script>
+</body>
+
+</html>

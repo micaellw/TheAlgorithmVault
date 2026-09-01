@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/frontend-web/styles/stylearticle.css">
+    <link rel="stylesheet" href="/frontend-web/styles/StyleIntroduction.css">
+    <link rel="stylesheet" href="/frontend-web/styles/StyleMenu.css">
+    <style>
+        .classroom-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .fav-card {
+            background: var(--card-bg);
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: 0.3s;
+            position: relative;
+        }
+
+        .fav-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .card-header {
+            height: 100px;
+            background: linear-gradient(45deg, var(--neon-blue), var(--neon-purple));
+            padding: 15px;
+            position: relative;
+        }
+
+        .card-header h3 {
+            margin: 0;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .card-author {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .card-body {
+            padding: 15px;
+            min-height: 80px;
+            border-bottom: 1px solid #30363d;
+        }
+
+        .card-footer {
+            padding: 10px 15px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            color: #8b949e;
+        }
+
+        .author-pic {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            position: absolute;
+            bottom: -30px;
+            right: 15px;
+            border: 3px solid var(--card-bg);
+        }
+    </style>
+</head>
+
+<body>
+    <nav id="content-placeholder"></nav>
+    <nav id="paginative"></nav>
+    <section class="explanation-container" style="max-width: 1200px;">
+        <header class="project-header">
+            <h1>Your Algorithm Repository</h1>
+            <p class="tagline">รายการที่คุณสนใจและบันทึกไว้ใน Vault</p>
+        </header>
+
+        <div id="favorites-grid" class="classroom-grid"
+            style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; padding: 20px;">
+        </div>
+
+
+        <script>
+            // ในหน้า favorites.html แก้ไขส่วน renderFavorites
+            async function renderFavorites() {
+                const container = document.getElementById('favorites-grid');
+                const userId = localStorage.getItem('user_id');
+
+                if (!userId) {
+                    container.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 50px;">
+            <h2 style="color: #f87171;">⚠️ กรุณาล็อกอินเพื่อเข้าถึงคลังส่วนตัว</h2>
+        </div>`;
+                    return;
+                }
+
+                try {
+                    // 🎯 ดึงข้อมูลจากฐานข้อมูลจริง
+                    const response = await fetch(`http://localhost:8000/users/${userId}/favorites`);
+                    const favorites = await response.json();
+
+                    if (favorites.length === 0) {
+                        container.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: #8b949e;">คลังข้อมูลในฐานข้อมูลยังว่างเปล่า...</p>`;
+                        return;
+                    }
+
+                    const colors = ['#1a73e8', '#d93025', '#1e8e3e', '#f29900', '#a142f4'];
+
+                    container.innerHTML = favorites.map((fav, index) => {
+                        const headerColor = colors[index % colors.length];
+                        return `
+                <div class="fav-card">
+                    <div class="card-header" style="background: ${headerColor}">
+                        <h3>${fav.title}</h3>
+                        <p class="card-author">Algorithm Vault DB Source</p>
+                        <div class="author-pic">
+                            <img src="/frontend-web/assets/default-avatar.png" style="width:100%">
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p style="color: ${fav.downloaded ? 'var(--neon-green)' : 'var(--neon-blue)'}">
+                            <i class="fas ${fav.downloaded ? 'fa-check-circle' : 'fa-heart'}"></i>
+                            สถานะ: ${fav.downloaded ? 'ดาวน์โหลดแล้ว' : 'บันทึกในฐานข้อมูลแล้ว'}
+                        </p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="${fav.page_path}" style="color: var(--neon-blue); font-weight: bold;">OPEN ENGINE</a>
+                        <button onclick="removeFavoriteFromDB(${fav.id})" style="background:none; border:none; color:#f87171; cursor:pointer;">REMOVE</button>
+                    </div>
+                </div>`;
+                    }).join('');
+                } catch (err) {
+                    container.innerHTML = "เกิดข้อผิดพลาดในการดึงข้อมูลจากเซิร์ฟเวอร์";
+                }
+            }
+
+            async function removeFavoriteFromDB(favId) {
+                if (!confirm("ต้องการลบออกจากฐานข้อมูล?")) return;
+                const response = await fetch(`http://localhost:8000/favorites/${favId}`, { method: 'DELETE' });
+                if (response.ok) renderFavorites();
+            }
+
+            window.onload = renderFavorites;
+        </script>
+    </section>
+    <script type="module" src="/frontend-web/scripts/PageLayout.js"></script>
+</body>
+
+</html>

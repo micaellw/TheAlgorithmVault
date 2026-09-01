@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visual Pattern Studio - The Algorithm Vault</title>
+
+    <link rel="stylesheet" href="../../styles/StyleMenu.css">
+    <link rel="stylesheet" href="./styles/PatternStyle.css">
+    <link rel="stylesheet" href="../../styles/StyleIntroduction.css">
+    <link rel="stylesheet" href="../../styles/stylearticle.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+
+    <style>
+        html, body {
+            background-color: #0b0e14 !important; /* ใช้สีเดียวกับ --bg-color ของคุณ */
+        }
+    </style>
+    
+</head>
+
+<body>
+
+    <nav id="content-placeholder" style="margin-bottom: 50px;"></nav>
+    <nav id="paginative"></nav>
+
+    <div class="container">
+        <section class="page one Pattern" style="display: block;">
+
+            <h1 style="text-align: center; font-size:1.5em; color: var(--neon-yellow);margin-bottom: 50px;">✨ Visual Pattern Studio: Nested Loop Art</h1>
+
+    <div class="pattern-grid-container">
+        
+        <div class="canvas-zone">
+            <div class="controls">
+                <select id="pattern-select">
+                    <option value="square">Square(สี่เหลี่ยม)</option>
+                    <option value="hollowSquare">Hollow Square(สี่เหลี่ยมโปร่ง)</option>
+                    <option value="triangle">Triangle(สามเหลี่ยมชิดซ้าย)</option>
+                    <option value="rightTriangle">Right Triangle(สามเหลี่ยมชิดขวา)</option>
+                    <option value="pyramid">Pyramid(พีระมิด)</option>
+                    <option value="diamond">Diamond(ข้าวหลามตัด)</option>
+                    <option value="hollowDiamond">Hollow Diamond(ข้าวหลามตัดแบบโปร่ง)</option>
+                    <option value="checkerboard">Checkerboard(ตารางหมากรุก)</option>
+                    <option value="cross">X-Cross(กากบาท)</option>
+                    <option value="plus">Plus Line(เครื่องหมายบวก(ตัดกลาง))</option>
+                    <option value="invPyramid">Inverted Pyramid (พีระมิดกลับหัว)</option>
+                    <option value="hollowInvPyramid">Hollow Inverted Pyramid (พีระมิดกลับหัวโปร่ง)</option>
+                    <option value="sandglass">Sandglass (นาฬิกาทราย)</option>
+                    <option value="hollowSandglass">Hollow Sandglass (นาฬิกาทรายโปร่ง)</option>
+                </select>
+                <input type="number" id="grid-size" value="3" min="3" max="9" step="2" style="width: 60px;">
+                <button id="start-btn">Start Draw</button>
+                <button id="startsolve-btn" onclick="Solve()">Start Solve</button>
+                <button id="next-btn" onclick="nextStep()" disabled
+                    style="border-color: var(--neon-yellow); color: var(--neon-yellow);">Next Step ⟹</button>
+                    
+                <select name="solveDelay" id="solveDelay">
+                    <option value="1000">Start Solve Delay : 1s</option>
+                    <option value="500">Start Solve Delay : 0.5s</option>
+                    <option value="200">Start Solve Delay : 0.2s</option>
+                </select>
+                <button id="reset-btn" onclick="resetStudio()"
+                    style="border-color: #f85149; color: #f85149;">Reset</button>
+            </div>
+
+            <div id="algo-status" class="status-box">พร้อมสร้างงานศิลปะ... กรุณาเลือกแพทเทิร์นและขนาด</div>
+            <div id="grid-view" class="grid-display"></div>
+
+        </div>
+
+        <div class="var-dash">
+
+            <h3 style="text-align: center; margin-top: 0; color: var(--neon-purple);">Loop Variables</h3>
+            <div class="var-item">
+                <label>Row Index (i)</label>
+                <span id="row-val">?</span>
+            </div>
+            <div class="var-item">
+                <label>Col Index (j)</label>
+                <span id="col-val">?</span>
+            </div>
+            <div class="var-item" style="border-color: var(--neon-green);">
+                <label>Condition Logic</label>
+                <code id="logic-text" style="color: var(--neon-green); font-size: 0.9rem;">-</code>
+            </div>
+
+            <div style="margin-top: 30px; border-top: 1px solid #30363d; padding-top: 20px;">
+                <p style="font-size: 0.85rem; color: #8b949e;">
+                    <strong>Nested Loop Info:</strong><br>
+                    ลูปนอก (i) ควบคุมแถว <br>
+                    ลูปใน (j) ควบคุมคอลัมน์ <br>
+                    ถ้านิพจน์เป็นจริง จะพิมพ์ <b>*</b>
+                </p>
+            </div>
+
+        </div>
+    </div>
+        </section>
+
+        <section class="page two">
+            <nav id="vault-index"></nav>
+            <div class="article-content-area">
+
+                <!-- ================= THEORY SECTION ================= -->
+                <article class="article-section active" id="theory-section">
+                    <div class="explanation-container">
+
+                        <header class="project-header">
+                            <h1>Visual Pattern Analysis: Nested Loops</h1>
+                            <p class="tagline">
+                                การวิเคราะห์พิกัด 2 มิติและการประยุกต์ใช้ตรรกะคณิตศาสตร์ในการสร้างรูปทรง
+                            </p>
+                        </header>
+
+                        <article class="report-body">
+
+                            <h3>1. นิยามของความสัมพันธ์ในพิกัด 2 มิติ</h3>
+                            <p>
+                                การสร้างรูปทรงบน Grid ขนาด
+                                <span class="math"><i>n</i> × <i>n</i></span>
+                                คือการทำงานบนระบบพิกัดแบบ Cartesian Discrete
+                                ซึ่งประกอบด้วยสองดัชนีหลัก:
+                            </p>
+
+                            <ul>
+                                <li><strong>Outer Loop:</strong> ควบคุมแถว (i)</li>
+                                <li><strong>Inner Loop:</strong> ควบคุมคอลัมน์ (j)</li>
+                            </ul>
+
+                            <p>
+                                ทุกจุดในกริดสามารถนิยามเป็นฟังก์ชันบูลีน:
+                            </p>
+
+                            <div class="formula-block">
+                                G(i,j) ∈ {0,1}
+                            </div>
+
+                            <hr>
+
+                            <h3>2. จุดกึ่งกลาง (Midpoint Logic)</h3>
+
+                            <div class="formula-block">
+                                mid = floor(n / 2)
+                            </div>
+
+                            <p>
+                                ใช้เป็นแกนอ้างอิงของรูปทรงสมมาตร เช่น Diamond, Pyramid
+                            </p>
+
+                            <hr>
+
+                            <h3>3. Taxonomy ของ Pattern Logic</h3>
+
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>ประเภท</th>
+                                        <th>สมการ</th>
+                                        <th>ตัวอย่าง</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Full Fill</td>
+                                        <td>true</td>
+                                        <td>Square</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Boundary</td>
+                                        <td>i=0 ∨ i=n-1 ∨ j=0 ∨ j=n-1</td>
+                                        <td>Hollow Square</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Linear Inequality</td>
+                                        <td>j ≤ i</td>
+                                        <td>Triangle</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Distance Based</td>
+                                        <td>|i-mid|+|j-mid| ≤ mid</td>
+                                        <td>Diamond</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <hr>
+
+                            <h3>4. Manhattan Distance vs Euclidean</h3>
+
+                            <p>ระบบนี้ใช้ Manhattan Distance:</p>
+
+                            <div class="formula-block">
+                                |x₁-x₂| + |y₁-y₂|
+                            </div>
+
+                            <p>
+                                เพราะคำนวณเร็วกว่าและเหมาะกับ Grid แบบ Discrete
+                            </p>
+
+                            <hr>
+
+                            <h3>5. Formal Computational Model</h3>
+
+                            <div class="formula-block">
+                                G(i,j) = F(i,j,n)
+                            </div>
+
+                            <p>
+                                Nested Loop คือการ evaluate F สำหรับทุก cell
+                            </p>
+
+                            <pre class="code-block"><code class="language-javascript">
+for (let i = 0; i &lt; n; i++) {
+    for (let j = 0; j &lt; n; j++) {
+        G[i][j] = F(i,j,n);
+    }
+}
+</code></pre>
+
+                            <hr>
+
+                            <h3>6. Correctness Proof Sketch</h3>
+
+                            <p>
+                                Outer loop ทำ n ครั้ง
+                                Inner loop ทำ n ครั้ง
+                            </p>
+
+                            <div class="formula-block">
+                                Total = n × n = n²
+                            </div>
+
+                            <p>
+                                ดังนั้น algorithm ครอบคลุมทุก cell โดยไม่ซ้ำ
+                            </p>
+
+                            <hr>
+
+                            <h3>7. Time Complexity Analysis</h3>
+
+                            <div class="formula-block">
+                                T(n) = n²
+                            </div>
+
+                            <ul>
+                                <li>Worst-case = O(n²)</li>
+                                <li>Average-case = O(n²)</li>
+                            </ul>
+
+                            <hr>
+
+                            <h3>8. Memory Complexity</h3>
+
+                            <p>ใช้โครงสร้าง:</p>
+
+                            <pre class="code-block"><code class="language-javascript">
+gridState = Array(n*n)
+steps = Array(n*n)
+</code></pre>
+
+                            <div class="formula-block">
+                                M(n) = O(n²)
+                            </div>
+
+                            <p>
+                                หากไม่เก็บ steps → ลดเหลือ O(n²)
+                                หาก render streaming → O(1)
+                            </p>
+
+                            <hr>
+
+                            <h3>9. Animation as State Machine</h3>
+
+                            <div class="formula-block">
+                                S_k = (i_k, j_k, grid_k)
+                            </div>
+
+                            <p>
+                                Transition ต่อเนื่องจน k = n² − 1
+                            </p>
+
+                        </article>
+
+                        <div class="nav-buttons-container">
+                            <button class="nav-button" onclick="navigatePage(-1)">❮ Back</button>
+                            <button class="nav-button" onclick="navigatePage(1)">Next ❯</button>
+                        </div>
+
+                    </div>
+                </article>
+
+                <!-- ================= CODE LOGIC SECTION ================= -->
+                <article class="article-section" id="code-logic">
+                    <div class="explanation-container">
+
+                        <header class="project-header">
+                            <h1>Complete Pattern Engine Architecture</h1>
+                            <p class="tagline">
+                                Modular Boolean Pattern Evaluation Framework
+                            </p>
+                        </header>
+
+                        <article class="report-body">
+
+                            <h3>1. Modular Pattern Dictionary</h3>
+
+                            <pre class="code-block"><code class="language-javascript">
+switch(pattern) {
+    case 'square': 
+        isStar = true; 
+        break;
+
+    case 'hollowSquare': // สี่เหลี่ยมโปร่ง (เอาแค่ขอบ)
+        isStar = (i === 0 || i === size - 1 || j === 0 || j === size - 1);
+        break;
+
+    case 'triangle': 
+        isStar = (j <= i); 
+        break;
+    .
+    .
+    .
+
+    case 'hollowSandglass': // นาฬิกาทราย (โปร่ง)
+    isStar = (i === 0 || i === size - 1 || i === j || i + j === size - 1);
+    break;                   
+    }
+</code></pre>
+
+                            <hr>
+
+                            <h3>2. Rendering Engine</h3>
+
+                            <pre class="code-block"><code class="language-javascript">
+for (let i = 0; i < size; i++) {
+    for (let j = 0; j < size; j++) {
+        let isStar = false;
+        let mid = Math.floor(size / 2);
+       
+    steps.push({
+        i: i, j: j, isStar: isStar,
+        });    
+    }
+}
+</code></pre>
+
+                            <hr>
+
+                            <h3>3. Performance Summary</h3>
+
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Metric</th>
+                                        <th>Value</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Traversal</td>
+                                        <td>Exhaustive</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Time Complexity</td>
+                                        <td>O(n²)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Memory Complexity</td>
+                                        <td>O(n²)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Model Type</td>
+                                        <td>Boolean Grid Evaluation</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <hr>
+
+                            <h3>4. Advanced Extensions</h3>
+
+                            <ul>
+                                <li>Circle Pattern (Euclidean Distance)</li>
+                                <li>Spiral Generator</li>
+                                <li>Fractal Recursive Pattern</li>
+                                <li>Benchmark Panel</li>
+                            </ul>
+
+                        </article>
+
+                        <div class="nav-buttons-container">
+                            <button class="nav-button" onclick="navigatePage(-1)">❮ Back</button>
+                            <button class="nav-button" onclick="navigatePage(1)">Finish ❯</button>
+                        </div>
+
+                    </div>
+                </article>
+
+            </div>
+        </section>
+
+            <nav id="menuactive"></nav>
+
+    </div>
+
+    <script src="./scripts/AlgorithmPattern.js"></script>
+    <script type="module" src="../../scripts/PageLayout.js"></script>
+</body>
+
+</html>

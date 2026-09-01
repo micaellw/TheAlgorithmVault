@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - The Algorithm Vault</title>
+    <link rel="stylesheet" href="./styles/StyleMenu.css">
+    <link rel="stylesheet" href="./styles/stylearticle.css">
+    <link rel="stylesheet" href="./styles/StyleIntroduction.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+</head>
+
+<body>
+    <nav id="content-placeholder"></nav>
+    <div class="container">
+        <section class="page two">
+            <div class="article-wrapper">
+                <nav id="vault-index"></nav>
+
+                <div class="article-content-area">
+
+                    <article class="article-section active" id="theory-section">
+                        <div class="explanation-container">
+
+                            <header class="project-header">
+                                <h1>The Algorithm Vault</h1>
+                                <p class="tagline">
+                                    จากตรรกะพื้นฐานสู่สถาปัตยกรรมซอฟต์แวร์ที่ออกแบบอย่างมีระบบ
+                                </p>
+                            </header>
+
+                            <article class="report-body">
+
+                                <h2>Overview</h2>
+
+                                <p>
+                                    The Algorithm Vault คือพื้นที่สาธิตแนวคิดเชิงอัลกอริทึม
+                                    โครงสร้างข้อมูล และการออกแบบระบบซอฟต์แวร์
+                                    ที่ผสานทั้งทฤษฎีและการปฏิบัติไว้ในแพลตฟอร์มเดียว
+                                </p>
+
+                                <p>
+                                    โครงการนี้ไม่ได้ถูกสร้างขึ้นเพื่อแสดงเพียง "ผลลัพธ์ของโค้ด"
+                                    แต่เพื่อแสดงกระบวนการคิดเชิงตรรกะ (Computational Thinking),
+                                    การวิเคราะห์เชิงอสมมาตร (Asymptotic Analysis),
+                                    และแนวทางการออกแบบเชิงสถาปัตยกรรมที่ชัดเจน
+                                </p>
+
+                                <hr>
+
+                                <h2>Core Philosophy</h2>
+
+                                <ul>
+                                    <li>Algorithm ก่อน Implementation</li>
+                                    <li>Understand Complexity ก่อน Optimize</li>
+                                    <li>Design Architecture ก่อน Write Code</li>
+                                    <li>Clarity มาก่อน Cleverness</li>
+                                </ul>
+
+                                <p>
+                                    ทุกโมดูลในระบบนี้ถูกออกแบบให้สามารถวิเคราะห์ได้ทั้งในระดับ:
+                                </p>
+
+                                <ul>
+                                    <li>Time Complexity (Big-O)</li>
+                                    <li>Space Complexity</li>
+                                    <li>Behavioral Characteristics</li>
+                                    <li>Correctness & Invariants</li>
+                                </ul>
+
+                                <hr>
+
+                                <h2>System Architecture Perspective</h2>
+
+                                <p>
+                                    โครงสร้างของโปรเจคแยกส่วน Frontend Logic,
+                                    Visualization Layer และ Algorithm Engine ออกจากกันอย่างชัดเจน
+                                    เพื่อสะท้อนแนวคิด Clean Architecture
+                                </p>
+
+                                <p>
+                                    แต่ละโมดูล เช่น Pathfinding Visualizer,
+                                    Data Structure Lab หรือ Tower of Hanoi
+                                    ถูกพัฒนาให้สามารถขยายต่อยอดได้ในอนาคต
+                                    โดยไม่ผูกติดกับ implementation เดียว
+                                </p>
+
+                                <hr>
+
+                                <h2>Educational Intent</h2>
+
+                                <p>
+                                    แพลตฟอร์มนี้สามารถใช้เป็น:
+                                </p>
+
+                                <ul>
+                                    <li>สื่อการสอนอัลกอริทึมระดับมหาวิทยาลัย</li>
+                                    <li>Lab สำหรับวิเคราะห์พฤติกรรมเชิงทดลอง</li>
+                                    <li>Portfolio แสดงแนวคิดเชิงระบบ</li>
+                                    <li>พื้นที่ทดลอง heuristic และ optimization</li>
+                                </ul>
+
+                                <div class="nav-buttons-container">
+                                    <button class="nav-button" onclick="navigatePage(-1)">❮ Back</button>
+                                    <button class="nav-button" onclick="navigatePage(1)">Next ❯</button>
+                                </div>
+
+                            </article>
+                        </div>
+                    </article>
+
+
+                    <article class="article-section" id="code-logic">
+                        <div class="explanation-container">
+
+                            <header class="project-header">
+                                <h1>เหตุผลที่สร้างโครงการนี้</h1>
+                            </header>
+
+                            <article class="report-body">
+
+                                <h2>1. เพื่อเชื่อมทฤษฎีกับการปฏิบัติ</h2>
+
+                                <p>
+                                    ในการเรียนรู้ด้านวิทยาการคอมพิวเตอร์
+                                    มักเกิดช่องว่างระหว่างทฤษฎีในตำรา
+                                    และการนำไปใช้จริงในระบบ
+                                </p>
+
+                                <p>
+                                    The Algorithm Vault ถูกสร้างขึ้นเพื่อปิดช่องว่างนั้น
+                                    โดยทำให้อัลกอริทึมสามารถ "มองเห็น" ได้
+                                    ผ่าน Visualization และ Interactive Simulation
+                                </p>
+
+                                <hr>
+
+                                <h2>2. เพื่อฝึกการคิดเชิงโครงสร้าง (Structural Thinking)</h2>
+
+                                <p>
+                                    มากกว่าการเขียนโค้ดให้ทำงานได้
+                                    เป้าหมายคือการออกแบบระบบที่สามารถ:
+                                </p>
+
+                                <ul>
+                                    <li>อธิบายได้</li>
+                                    <li>วิเคราะห์ได้</li>
+                                    <li>ขยายได้</li>
+                                    <li>พิสูจน์ความถูกต้องได้</li>
+                                </ul>
+
+                                <hr>
+
+                                <h2>3. เพื่อพัฒนาแนวคิด Clean Architecture</h2>
+
+                                <p>
+                                    โครงสร้างของระบบถูกจัดระเบียบให้แยก Layer ชัดเจน
+                                    ระหว่าง:
+                                </p>
+
+                                <ul>
+                                    <li>Algorithm Core</li>
+                                    <li>Data Model</li>
+                                    <li>Visualization Engine</li>
+                                    <li>UI Layer</li>
+                                </ul>
+
+                                <p>
+                                    แนวคิดนี้ช่วยให้ระบบสามารถพัฒนาในระยะยาว
+                                    โดยไม่เกิด Technical Debt ที่ไม่จำเป็น
+                                </p>
+
+                                <hr>
+
+                                <h2>4. วิสัยทัศน์ระยะยาว</h2>
+
+                                <p>
+                                    เป้าหมายในอนาคตคือการขยายแพลตฟอร์มให้ครอบคลุม:
+                                </p>
+
+                                <ul>
+                                    <li>Advanced Graph Algorithms</li>
+                                    <li>Dynamic Programming Visualizer</li>
+                                    <li>Computational Geometry Lab</li>
+                                    <li>Performance Benchmark Dashboard</li>
+                                </ul>
+
+                                <p>
+                                    เพื่อให้ The Algorithm Vault
+                                    เป็นทั้งพื้นที่เรียนรู้
+                                    และพื้นที่ทดลองเชิงวิศวกรรมอย่างแท้จริง
+                                </p>
+
+                                <hr>
+
+                                <h2>Final Reflection</h2>
+
+                                <p>
+                                    โครงการนี้สะท้อนแนวคิดว่า
+                                    การพัฒนาซอฟต์แวร์ที่ดี
+                                    ไม่ได้เกิดจากเพียงการเขียนโค้ด
+                                    แต่เกิดจากการเข้าใจตรรกะพื้นฐานอย่างลึกซึ้ง
+                                    และออกแบบระบบอย่างมีวินัย
+                                </p>
+
+                                <div class="nav-buttons-container">
+                                    <button class="nav-button" onclick="navigatePage(-1)">❮ Back</button>
+                                    <button class="nav-button" onclick="navigatePage(1)">Next ❯</button>
+                                </div>
+
+                            </article>
+                        </div>
+                    </article>
+
+
+                </div>
+            </div>
+        </section>
+    </div>
+    <script>
+    </script>
+    <script type="module" src="./scripts/PageLayout.js"></script>
+</body>
+
+</html>

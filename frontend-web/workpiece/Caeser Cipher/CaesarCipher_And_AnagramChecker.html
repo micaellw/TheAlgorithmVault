@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security & Utility Tools - The Algorithm Vault</title>
+    <link rel="stylesheet" href="../../styles/StyleMenu.css">
+    <link rel="stylesheet" href="../../styles/StyleIntroduction.css">
+    <link rel="stylesheet" href="../../styles/stylearticle.css">
+    <link rel="stylesheet" href="./styles/CipStyle.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+
+    <style>
+        html, body {
+            background-color: #0b0e14 !important; /* ใช้สีเดียวกับ --bg-color ของคุณ */
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav id="content-placeholder"></nav>
+
+    <nav id="paginative"></nav>
+
+
+    <div class="container">
+
+        <section class="page one Secur" style="display: block; text-align: left;">
+
+            <h1 style="text-align:center; color: var(--neon-purple); margin-bottom: 30px;">🛠️ Security & Utility Lab
+            </h1>
+
+            <div class="main-grid">
+                <aside class="history-container">
+                    <h3>📜 History Log <button id="clear-history" style="font-size: 10px; float: right;">Clear</button>
+                    </h3>
+                    <ul id="history-list"></ul>
+                </aside>
+
+                <main class="work-zone">
+
+                    <div class="tool-section">
+                        <h2 style="color: var(--neon-blue);">🔐 Caesar Encryption (การเข้ารหัส)</h2>
+                        <p style="font-size: 0.8em; color: #8b949e;">พิมพ์ข้อความที่ต้องการ "แปลง" ให้เป็นรหัสลับ</p>
+                        <div class="controls">
+                            <input type="text" id="encrypt-input" placeholder="ข้อความที่จะเข้ารหัส...">
+                            <input type="number" id="encrypt-shift" value="3" style="width: 60px;">
+                            <button onclick="processCaesar('encrypt')">Encrypt</button>
+                        </div>
+                        <div id="encrypt-result" class="status-box">ผลลัพธ์จะแสดงที่นี่...</div>
+                    </div>
+
+                    <div class="tool-section">
+                        <h2 style="color: var(--neon-purple);">🔓 Caesar Decryption (การถอดรหัส)</h2>
+                        <p style="font-size: 0.8em; color: #8b949e;">พิมพ์รหัสลับที่ต้องการ "แปลงกลับ" เป็นข้อความปกติ
+                        </p>
+                        <div class="controls">
+                            <input type="text" id="decrypt-input" placeholder="รหัสลับที่จะแปลงกลับ...">
+                            <input type="number" id="decrypt-shift" value="3" style="width: 60px;">
+                            <button onclick="processCaesar('decrypt')"
+                                style="color: var(--neon-purple); border-color: var(--neon-purple);">Decrypt</button>
+                        </div>
+                        <div id="decrypt-result" class="status-box" style="border-left-color: var(--neon-purple);">
+                            ผลลัพธ์จะแสดงที่นี่...</div>
+                    </div>
+
+                    <div class="tool-section">
+                        <h2 style="color: var(--neon-green);">🧩 Anagram Checker</h2>
+                        <p style="font-size: 0.8em; color: #8b949e;">พิมพ์ข้อความ 2 คำ เพื่อเช็คว่าเป็น Anagram กันมั้ย
+                        <div class="controls">
+                            <input type="text" id="anagram-1" placeholder="คำที่ 1">
+                            <input type="text" id="anagram-2" placeholder="คำที่ 2">
+                            <button onclick="checkAnagram()"
+                                style="color: var(--neon-green); border-color: var(--neon-green);">Check</button>
+                        </div>
+                        <div id="anagram-result" class="status-box" style="border-left-color: var(--neon-green);">
+                            ระบุคำสองคำ...</div>
+                    </div>
+                </main>
+
+                <section class="stack-area">
+                    <div class="stack-box">
+                        <h5 style="color: var(--neon-yellow);">Logic Monitor</h5>
+                        <div id="logic-viewer" style="font-family: monospace; font-size: 0.9em; line-height: 1.6;">
+                            Ready to monitor...
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </section>
+
+        <section class="page two">
+
+            <nav id="vault-index"></nav>
+
+            <div class="article-content-area">
+
+                <!-- ================= THEORY SECTION ================= -->
+                <article class="article-section active" id="theory-section">
+
+                    <div class="explanation-container">
+
+                        <header class="project-header">
+                            <h1>Caesar Cipher & Anagram Engine: Formal Analysis</h1>
+                            <p class="tagline">
+                                โมเดลเชิงคณิตศาสตร์ของการเข้ารหัสแบบ Substitution Cipher และการตรวจสอบความเป็น
+                                Permutation
+                            </p>
+                        </header>
+
+                        <article class="report-body">
+
+                            <h3>1. โมเดลทางคณิตศาสตร์ของ Caesar Cipher</h3>
+
+                            <p>
+                                Caesar Cipher เป็นการเข้ารหัสแบบ Shift Cipher ซึ่งนิยามได้ในเชิงฟังก์ชัน:
+                            </p>
+
+                            <div class="formula-block">
+                                E(x) = (x + k) mod 26
+                            </div>
+
+                            <p>
+                                โดยที่:
+                            </p>
+                            <ul>
+                                <li>x = ตำแหน่งของตัวอักษรใน Alphabet (0-25)</li>
+                                <li>k = ค่า shift</li>
+                                <li>mod 26 = การวนรอบตัวอักษร</li>
+                            </ul>
+
+                            <hr>
+
+                            <h3>2. ฟังก์ชันถอดรหัส (Inverse Function)</h3>
+
+                            <div class="formula-block">
+                                D(x) = (x - k) mod 26
+                            </div>
+
+                            <p>
+                                ในระบบของคุณ Decryption ถูกเขียนในรูป:
+                            </p>
+
+                            <div class="formula-block">
+                                26 - (k mod 26)
+                            </div>
+
+                            ซึ่งเป็น equivalent form ของการลบใน modular arithmetic
+
+                            <hr>
+
+                            <h3>3. Modular Arithmetic Formalization</h3>
+
+                            <p>
+                                ระบบตัวอักษรสามารถมองเป็น Group:
+                            </p>
+
+                            <div class="formula-block">
+                                (Z₍26₎, +)
+                            </div>
+
+                            <p>
+                                Caesar Cipher คือการทำ translation ใน cyclic group
+                            </p>
+
+                            <hr>
+
+                            <h3>4. Time Complexity Analysis</h3>
+
+                            <p>
+                                ให้ n = ความยาวข้อความ
+                            </p>
+
+                            <div class="formula-block">
+                                T(n) = n
+                            </div>
+
+                            <ul>
+                                <li>Worst-case = O(n)</li>
+                                <li>Average-case = O(n)</li>
+                            </ul>
+
+                            เนื่องจากต้องประมวลผลทุกตัวอักษร
+
+                            <hr>
+
+                            <h3>5. Memory Complexity</h3>
+
+                            ใช้:
+                            <ul>
+                                <li>String split → O(n)</li>
+                                <li>Map result → O(n)</li>
+                            </ul>
+
+                            <div class="formula-block">
+                                M(n) = O(n)
+                            </div>
+
+                            <hr>
+
+                            <h3>6. Security Weakness Analysis</h3>
+
+                            Caesar Cipher มี Key space เพียง:
+
+                            <div class="formula-block">
+                                |K| = 26
+                            </div>
+
+                            ดังนั้น brute-force complexity คือ:
+
+                            <div class="formula-block">
+                                O(26n) ≈ O(n)
+                            </div>
+
+                            ซึ่งถือว่าไม่ปลอดภัยในเชิง Cryptographic Standard
+
+                            <hr>
+
+                            <h3>7. Frequency Analysis Vulnerability</h3>
+
+                            เนื่องจากเป็น Monoalphabetic Substitution
+
+                            Distribution ของตัวอักษรถูกเลื่อนเท่านั้น
+
+                            ดังนั้น Frequency Profile ยังคงรูปแบบเดิม
+
+                            ทำให้สามารถใช้ Statistical Attack ได้
+
+                            <hr>
+
+                            <h3>8. Anagram Checker as Permutation Test</h3>
+
+                            ให้ s₁ และ s₂ เป็น string สองชุด
+
+                            Anagram คือ:
+
+                            <div class="formula-block">
+                                sort(s₁) = sort(s₂)
+                            </div>
+
+                            ซึ่งหมายถึง:
+
+                            <div class="formula-block">
+                                Multiset(s₁) = Multiset(s₂)
+                            </div>
+
+                            <hr>
+
+                            <h3>9. Time Complexity ของ Anagram</h3>
+
+                            ขั้นตอน:
+                            <ul>
+                                <li>Split → O(n)</li>
+                                <li>Sort → O(n log n)</li>
+                                <li>Compare → O(n)</li>
+                            </ul>
+
+                            ดังนั้น:
+
+                            <div class="formula-block">
+                                T(n) = O(n log n)
+                            </div>
+
+                            <hr>
+
+                            <h3>10. Alternative Optimization (Hash Counting)</h3>
+
+                            สามารถลด complexity เหลือ:
+
+                            <div class="formula-block">
+                                O(n)
+                            </div>
+
+                            โดยใช้ frequency array ขนาด 26
+
+                        </article>
+
+                        <div class="nav-buttons-container">
+                            <button class="nav-button" onclick="navigatePage(-1)">❮ Back</button>
+                            <button class="nav-button" onclick="navigatePage(1)">Next ❯</button>
+                        </div>
+
+                    </div>
+                </article>
+
+
+                <!-- ================= CODE ARCHITECTURE SECTION ================= -->
+
+                <article class="article-section" id="code-logic">
+
+                    <div class="explanation-container">
+
+                        <header class="project-header">
+                            <h1>Engine Architecture & Advanced Extensions</h1>
+                            <p class="tagline">
+                                การออกแบบระบบแบบ Modular Cryptographic Utility
+                            </p>
+                        </header>
+
+                        <article class="report-body">
+
+                            <h3>1. Current Caesar Implementation Model</h3>
+
+                            <pre class="code-block"><code class="language-javascript">
+const result = text.split('').map(char => {
+    if (char.match(/[a-z]/i)) {
+        const code = char.charCodeAt(0);
+        const base = (code >= 65 && code <= 90) ? 65 : 97;
+        return String.fromCharCode(
+            ((code - base + shift) % 26 + 26) % 26 + base
+        );
+    }
+    return char;
+}).join('');
+</code></pre>
+
+                            ---
+
+                            <h3>2. Formal Engine Abstraction</h3>
+
+                            สามารถ generalize เป็น:
+
+                            <div class="formula-block">
+                                Cipher(text, k) = map(f_k(char))
+                            </div>
+
+                            โดยที่ f_k คือ transformation function
+
+                            ---
+
+                            <h3>3. Extensible Cipher Framework</h3>
+
+                            <pre class="code-block"><code class="language-javascript">
+const cipherEngine = {
+    caesar: (text, k) => transform(text, k),
+    rot13: (text) => transform(text, 13),
+    atbash: (text) => transformAtbash(text)
+};
+</code></pre>
+
+                            ---
+
+                            <h3>4. Cryptographic Strength Comparison</h3>
+
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Cipher</th>
+                                        <th>Key Space</th>
+                                        <th>Security Level</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Caesar</td>
+                                        <td>26</td>
+                                        <td>ต่ำมาก</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Vigenère</td>
+                                        <td>26^m</td>
+                                        <td>ปานกลาง</td>
+                                    </tr>
+                                    <tr>
+                                        <td>AES-128</td>
+                                        <td>2^128</td>
+                                        <td>สูงมาก</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            ---
+
+                            <h3>5. State Logging Model</h3>
+
+                            History log สามารถนิยามเป็น:
+
+                            <div class="formula-block">
+                                H = {(type, input, output, timestamp)}
+                            </div>
+
+                            Space complexity:
+
+                            <div class="formula-block">
+                                O(m)
+                            </div>
+
+                            โดย m = จำนวน record ที่เก็บ
+
+                            ---
+
+                            <h3>6. Deterministic Transformation Property</h3>
+
+                            Caesar Cipher มี property:
+
+                            <div class="formula-block">
+                                E_k(E_m(x)) = E_{k+m}(x)
+                            </div>
+
+                            แสดงว่าเป็น additive homomorphism
+
+                            ---
+
+                            <h3>7. Advanced Teaching Extensions</h3>
+
+                            สามารถเพิ่ม:
+
+                            <ul>
+                                <li>Brute Force Demonstration Panel</li>
+                                <li>Frequency Chart Visualization</li>
+                                <li>Auto Key Recovery Simulation</li>
+                                <li>Entropy Measurement</li>
+                                <li>Big-O Benchmark Comparison</li>
+                            </ul>
+
+                            ---
+
+                            <h3>8. Final Complexity Summary</h3>
+
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Module</th>
+                                        <th>Time</th>
+                                        <th>Memory</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Caesar</td>
+                                        <td>O(n)</td>
+                                        <td>O(n)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Anagram</td>
+                                        <td>O(n log n)</td>
+                                        <td>O(n)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </article>
+
+                        <div class="nav-buttons-container">
+                            <button class="nav-button" onclick="navigatePage(-1)">❮ Back</button>
+                            <button class="nav-button" onclick="navigatePage(1)">Finish ❯</button>
+                        </div>
+
+                    </div>
+                </article>
+
+            </div>
+             
+        </section>
+        <nav id="menuactive"></nav>
+    </div>
+
+
+    <script src="./scripts/scriptsCip.js"></script>
+    <script type="module" src="../../scripts/PageLayout.js"></script>
+</body>
+
+</html>

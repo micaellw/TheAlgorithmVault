@@ -1,0 +1,211 @@
+body {
+             background-color: var(--bg-color); 
+             color: var(--text-main); 
+             font-family: 'Segoe UI', sans-serif; 
+             padding: 20px; 
+            }
+
+        .visualizer-container {
+            display: block;
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 50px;
+            border: 1px solid #30363d;
+            margin: 0 auto;
+            max-width: 80em;
+        }
+
+        .list-canvas {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            gap: 70px 100px;
+            min-height: 180px;
+            padding: 30px;
+            border-bottom: 1px solid #30363d;
+            justify-content: center; /* จัดให้อยู่กลางเมื่อว่าง */
+        }
+
+        /* --- ข้อความเมื่อโหนดว่าง --- */
+        .empty-msg {
+            color: #8b949e;
+            font-style: italic;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            animation: fadeIn 0.5s ease;
+        }
+        .empty-icon { font-size: 40px; filter: grayscale(1); }
+
+        .node {
+            width: 80px;
+            height: 60px;
+            background: #0d1117;
+            border: 2px solid #30363d;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .node:not(.null-node)::after {
+            content: '→';
+            position: absolute;
+            right: -60px;
+            font-size: 24px;
+            color: var(--neon-green);
+            font-weight: bold;
+            transition: opacity 0.3s ease;
+        }
+
+        .node.no-arrow::after { opacity: 0; }
+        .node.active { border-color: var(--neon-blue); box-shadow: 0 0 15px var(--neon-blue); transform: scale(1.1); }
+        .node.target { border-color: var(--neon-purple); box-shadow: 0 0 15px var(--neon-purple); }
+        .node.new-node { border-color: var(--neon-green); border-style: dashed; }
+        .null-node { border-color: #f85149; color: #f85149; }
+
+        .controls { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-top: 30px; }
+        input { padding: 10px; border-radius: 5px; border: 1px solid #30363d; background: #0d1117; color: white; width: 100px; }
+        
+        .LinkedList-AND-Stack button {
+            padding: 10px 15px; border: 1px solid var(--neon-blue); background: transparent;
+            color: var(--neon-blue); cursor: pointer; border-radius: 5px; transition: 0.2s;
+        }
+        .LinkedList-AND-Stack button:hover:not(:disabled) { background: var(--neon-blue); color: white; box-shadow: 0 0 10px var(--neon-blue); }
+        button:disabled { opacity: 0.3; cursor: not-allowed; border-color: #333; color: #555; }
+
+        .status-box { background: #0d1117; padding: 15px; border-left: 4px solid var(--neon-green); margin: 20px 0; font-family: monospace; }
+        
+        @keyframes fadeIn { 
+            from { opacity: 0; } to { opacity: 1; } 
+        }
+
+
+        .lab-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* ส่วนแสดงผล Stack (แนวตั้ง) */
+        .visualizer-zone {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid #30363d;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stack-container {
+            width: 150px;
+            height: 350px;
+            border: 4px solid #30363d;
+            border-top: none; /* เปิดด้านบน */
+            border-radius: 0 0 10px 10px;
+            display: flex;
+            flex-direction: column-reverse; /* ให้ข้อมูลเรียงจากล่างขึ้นบน */
+            padding: 10px;
+            gap: 5px;
+            position: relative;
+        }
+
+        .element {
+            width: 100%;
+            height: 40px;
+            background: #0d1117;
+            border: 2px solid var(--neon-blue);
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            animation: slideDown 0.3s ease;
+        }
+
+        .element.active { background: var(--neon-blue); color: #000; box-shadow: 0 0 15px var(--neon-blue); }
+        .element.pop-target { border-color: var(--neon-purple); background: rgba(188, 140, 255, 0.2); }
+
+        @keyframes slideDown {
+            from { transform: translateY(-100px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Controls */
+        .controls-zone { display: flex; flex-direction: column; gap: 20px; }
+        .status-box-node { background: #0d1117; padding: 15px; border-left: 4px solid var(--neon-blue); font-family: monospace; min-height: 60px; }
+        
+        .btn-group { display: flex; gap: 10px; flex-wrap: wrap; }
+        .LinkedList-AND-Stack button {
+            padding: 10px 15px; border: 1px solid var(--neon-blue); background: transparent;
+            color: var(--neon-blue); cursor: pointer; border-radius: 5px;
+        }
+        .LinkedList-AND-Stack button:hover:not(:disabled) { background: var(--neon-blue); color: white; }
+        .LinkedList-AND-Stack button:disabled { opacity: 0.3; cursor: not-allowed; }
+
+        @media (max-width: 768px) { .lab-container { grid-template-columns: 1fr; } }
+
+        .selectswitch{
+    position: absolute;
+    display: block;
+    right: 10em;
+    margin-top: 5em;
+    box-shadow: 0 10px 20px black , 0 0 15px var(--neon-blue);
+    border-radius: 10px;
+    padding: 3px;
+    z-index: 1;
+
+    .List-AND-Stack{
+      margin-top: 0;
+      color: var(--neon-blue);
+    }
+    .Switch-List-AND-Stack{
+      display: flex;
+      border-radius: 20px;
+      padding: 2px; 
+      text-align: center;
+      font-size: 15px;
+      justify-content: center;
+      align-items: center;
+      gap: 1.5em;
+      
+      .Stack-switch,.Linked-switch{
+        cursor: pointer;
+        padding: 2px;
+        border-radius: 20px;
+        box-shadow: 0 10px 20px black , 0 0 15px var(--neon-blue);
+      }
+    }
+    .Stack-switch:hover,.Linked-switch:hover{
+      text-shadow: 0 10px 20px rgb(221, 255, 1) , 0 0 15px var(--neon-blue);
+    }
+  }
+
+.LinkedList-AND-Stack{
+    .Data-Structure {
+        display: none;
+    }
+
+            
+    .Data-Structure.active {
+        display: block;
+        animation: fadeIn 0.5s ease;
+    }   
+}
+.Data-Structure-Lab.selected {
+    text-shadow: 0 10px 20px rgb(0, 238, 255), 0 0 15px var(--neon-green);
+    color: var(--neon-purple);
+    font-weight: bold;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}

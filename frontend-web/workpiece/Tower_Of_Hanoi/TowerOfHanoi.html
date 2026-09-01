@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Towers of Hanoi - The Algorithm Vault</title>
+    <link rel="stylesheet" href="../../styles/StyleMenu.css">
+    <link rel="stylesheet" href="../../styles/StyleIntroduction.css">
+    <link rel="stylesheet" href="../../styles/stylearticle.css">
+    <link rel="stylesheet" href="./styles/styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+</head>
+
+<body>
+    <nav id="content-placeholder"></nav>
+
+    <nav id="paginative"></nav>
+
+
+    <div class="container">
+        <section class="page one" style="display: block;">
+            <h1 style="text-align:center; color: var(--neon-purple);">🏯 Tower of Hanoi: Interactive Lab</h1>
+            <div class="hanoi-main-grid">
+                <aside class="hanoi-history-container">
+                    <h3>📜 Move Log <button id="hanoi-clear-btn" style="font-size: 10px; float: right;">Clear</button>
+                    </h3>
+                    <ul id="hanoi-history-list"></ul>
+                </aside>
+
+                <main class="hanoi-work-zone">
+                    <div class="hanoi-stats">
+                        <span style="color: var(--neon-blue);">Moves: <b id="current-moves">0</b></span>
+                        <span style="color: var(--neon-yellow);">Best Possible: <b id="min-moves">7</b></span>
+                    </div>
+
+                    <div class="hanoi-controls">
+                        <input type="number" id="hanoi-disk-input" value="3" min="1" max="7" style="width: 80px;"
+                            onchange="ui.resetHanoi()">
+                        <button id="hanoi-step-btn"
+                            style="border-color: var(--neon-yellow); color: var(--neon-yellow);">Next Step ⟹</button>
+                        <button id="hanoi-start-btn"
+                            style="border-color: var(--neon-blue); color: var(--neon-blue);">Start Solve</button>
+                        <button id="hanoi-reset-btn" onclick="ui.resetHanoi()"
+                            style="border-color: #f85149; color: #f85149;">Reset Game</button>
+                    </div>
+
+                    <div id="hanoi-status-text" class="hanoi-status">ลากจานเพื่อเริ่มเล่น หรือกด Solve เพื่อให้ AI
+                        ช่วย...</div>
+
+                    <div class="tower-canvas" id="hanoi-canvas">
+                        <div id="pole-0" class="tower-pole" ondrop="handleDrop(event)" ondragover="allowDrop(event)"
+                            ondragleave="handleLeave(event)">
+                            <small style="position:absolute; bottom:-25px; color:#555;">Source</small>
+                        </div>
+                        <div id="pole-1" class="tower-pole" ondrop="handleDrop(event)" ondragover="allowDrop(event)"
+                            ondragleave="handleLeave(event)">
+                            <small style="position:absolute; bottom:-25px; color:#555;">Aux</small>
+                        </div>
+                        <div id="pole-2" class="tower-pole" ondrop="handleDrop(event)" ondragover="allowDrop(event)"
+                            ondragleave="handleLeave(event)">
+                            <small style="position:absolute; bottom:-25px; color:#555;">Target</small>
+                        </div>
+                    </div>
+                </main>
+
+                <section class="hanoi-monitor-area">
+                    <div class="hanoi-monitor-box">
+                        <h5 style="color: var(--neon-yellow);">Recursive Monitor</h5>
+                        <div id="hanoi-logic-view"
+                            style="font-family: monospace; font-size: 0.85em; color: #8b949e; height: 500px; overflow-y: auto;">
+                            <div>> Ready...</div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </section>
+
+        <section class="page two">
+            <div class="article-wrapper">
+
+                <nav id="vault-index"></nav>
+
+                <div class="article-content-area">
+
+
+                    <article class="article-section active" id="theory-section">
+
+                        <div class="explanation-container">
+
+                            <header class="project-header">
+                                <h1>Tower of Hanoi : Deep Theoretical & Computational Analysis</h1>
+                                <p class="tagline">
+                                    Recursive Structure, Exponential Growth, Memory Model และ State Space Complexity
+                                </p>
+                            </header>
+
+                            <article class="report-body">
+
+                                <h2>Abstract</h2>
+                                <p>
+                                    บทความนี้วิเคราะห์อัลกอริทึม Tower of Hanoi ทั้งในเชิงคณิตศาสตร์และเชิงคำนวณ
+                                    ครอบคลุม Recurrence Relation,
+                                    Closed-form solution,
+                                    Exponential Time Complexity,
+                                    Stack Memory Behavior,
+                                    และ State Space Explosion
+                                    พร้อมเชื่อมโยงกับ implementation ใน Interactive Lab
+                                </p>
+
+                                <hr>
+
+                                <h2>1. Formal Recursive Model</h2>
+
+                                <div class="formula-block">
+                                    <span class="math">
+                                        T(n) = 2T(n-1) + 1
+                                    </span>
+                                </div>
+
+                                <p>
+                                    โดยมี base case:
+                                </p>
+
+                                <div class="formula-block">
+                                    <span class="math">
+                                        T(1) = 1
+                                    </span>
+                                </div>
+
+                                <p>
+                                    Closed-form solution:
+                                </p>
+
+                                <div class="formula-block">
+                                    <span class="math">
+                                        T(n) = 2^n - 1
+                                    </span>
+                                </div>
+
+                                <hr>
+
+                                <h2>2. Mathematical Induction Proof</h2>
+
+                                <p><b>Base Case:</b></p>
+
+                                <div class="formula-block">
+                                    <span class="math">
+                                        2¹ - 1 = 1 ✓
+                                    </span>
+                                </div>
+
+                                <p><b>Inductive Step:</b></p>
+
+                                <div class="formula-block">
+                                    <span class="math">
+                                        T(k+1) = 2(2^k -1)+1 = 2^(k+1)-1
+                                    </span>
+                                </div>
+
+                                <hr>
+
+                                <h2>3. Time Complexity Analysis</h2>
+
+                                <h3>Worst-case</h3>
+
+                                <div class="formula-block">
+                                    <span class="math">
+                                        Θ(2^n)
+                                    </span>
+                                </div>
+
+                                <p>
+                                    Tower of Hanoi ไม่มี average-case หรือ best-case
+                                    เพราะทุกกรณีต้องทำครบทุกขั้นตอน
+                                </p>
+
+                                <hr>
+
+                                <h2>4. Space Complexity (Call Stack Analysis)</h2>
+
+                                <ul>
+                                    <li>Maximum recursion depth = n</li>
+                                    <li>Each stack frame → O(1)</li>
+                                </ul>
+
+                                <div class="formula-block">
+                                    <span class="math">
+                                        Space = O(n)
+                                    </span>
+                                </div>
+
+                                <p>
+                                    แม้ time จะเป็น exponential
+                                    แต่ memory โตแบบ linear
+                                </p>
+
+                                <hr>
+
+                                <h2>5. State Space Explosion</h2>
+
+                                <p>
+                                    แต่ละจานสามารถอยู่ได้ 3 เสา
+                                </p>
+
+                                <div class="formula-block">
+                                    <span class="math">
+                                        |State Space| ≤ 3^n
+                                    </span>
+                                </div>
+
+                                <p>
+                                    แต่ optimal path มีความยาวเพียง:
+                                </p>
+
+                                <div class="formula-block">
+                                    <span class="math">
+                                        2^n - 1
+                                    </span>
+                                </div>
+
+                                <hr>
+
+                                <h2>6. Recursion Tree Interpretation</h2>
+
+                                <p>
+                                    โครงสร้างการเรียกเป็น Binary Recursion Tree
+                                </p>
+
+                                <div class="formula-block">
+                                    <span class="math">
+                                        Nodes ≈ 2^n
+                                    </span>
+                                </div>
+
+                                <p>
+                                    ซึ่งเป็นเหตุผลของ exponential growth
+                                </p>
+
+                                <hr>
+
+                                <h2>Conclusion</h2>
+
+                                <p>
+                                    Tower of Hanoi เป็นตัวอย่างคลาสสิกของ
+                                    Exponential Recursive Algorithm
+                                    ที่มี Closed-form solution ชัดเจน
+                                    และใช้สอนเรื่อง Big-O,
+                                    Induction,
+                                    Recursion Tree,
+                                    และ Stack Memory ได้อย่างมีประสิทธิภาพ
+                                </p>
+
+                                <div class="nav-buttons-container">
+                                    <button class="nav-button" onclick="navigatePage(-1)">❮ Back</button>
+                                    <button class="nav-button" onclick="navigatePage(1)">Next ❯</button>
+                                </div>
+
+                            </article>
+                        </div>
+                    </article>
+
+
+                    <!-- ================================================= -->
+                    <!-- =============== RECURSIVE ENGINE ================= -->
+                    <!-- ================================================= -->
+
+                    <article class="article-section" id="code-logic">
+
+                        <div class="explanation-container">
+
+                            <header class="project-header">
+                                <h1>HanoiSolver.js : Recursive Engine Deconstruction</h1>
+                            </header>
+
+                            <article class="report-body">
+
+                                <h2>1. Core Recursive Function</h2>
+
+                                <div class="formula-block">
+                                    <span class="math">
+                                        moveStack(n, target)
+                                    </span>
+                                </div>
+
+                                <p>
+                                    Algorithm:
+                                </p>
+
+                                <ol>
+                                    <li>ถ้า n = 0 → return</li>
+                                    <li>ย้าย n-1 ไป auxiliary</li>
+                                    <li>ย้ายจาน n ไป target</li>
+                                    <li>ย้าย n-1 ทับตาม</li>
+                                </ol>
+
+                                <hr>
+
+                                <h2>2. Arbitrary-State Solver</h2>
+
+                                <p>
+                                    เวอร์ชันใน Lab รองรับสถานะเริ่มต้นใดๆ
+                                </p>
+
+                                <ul>
+                                    <li>ค้นหาตำแหน่งจาน n</li>
+                                    <li>คำนวณ auxiliary pole</li>
+                                    <li>แก้แบบ recursive จากสถานะปัจจุบัน</li>
+                                </ul>
+
+                                <p>
+                                    ทำให้สามารถ Resume จาก state กลางเกมได้
+                                </p>
+
+                                <hr>
+
+                                <h2>3. Behavioral Insight</h2>
+
+                                <p>
+                                    AI Solve ทำงานตามลำดับ optimal
+                                    และจะทำครบ 2^n - 1 moves เสมอ
+                                </p>
+
+                                <hr>
+
+                                <h2>4. Memory vs Time Contrast</h2>
+
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Metric</th>
+                                            <th>Growth</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Time</td>
+                                            <td>Θ(2^n)</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Space</td>
+                                            <td>O(n)</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <hr>
+
+                                <h2>Key Insight สำหรับผู้เรียนขั้นสูง</h2>
+
+                                <ul>
+                                    <li>Exponential growth ไม่ได้หมายถึง memory exponential</li>
+                                    <li>Recursion depth ≠ total calls</li>
+                                    <li>Binary recursion tree อธิบาย complexity ได้ชัด</li>
+                                    <li>Closed-form ช่วยยืนยัน recurrence correctness</li>
+                                </ul>
+
+                                <div class="nav-buttons-container">
+                                    <button class="nav-button" onclick="navigatePage(-1)">❮ Back</button>
+                                    <button class="nav-button" onclick="navigatePage(1)">Next ❯</button>
+                                </div>
+
+                            </article>
+                        </div>
+                    </article>
+
+                </div>
+            </div>
+        </section>
+        <nav id="menuactive"></nav>
+
+    </div>
+
+    <script type="module" src="./scripts/scriptsHanoi.js"></script>
+    <script type="module" src="../../scripts/PageLayout.js"></script>
+
+</body>
+
+</html>

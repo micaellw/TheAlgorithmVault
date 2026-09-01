@@ -1,0 +1,28 @@
+.pattern-grid-container { display: grid; grid-template-columns: 1fr 350px; gap: 20px; max-width: 1200px; margin: 0 auto; }
+
+.canvas-zone { background: var(--card-bg); padding: 25px; border-radius: 12px; border: 1px solid var(--grey); min-height: 500px; display: flex; flex-direction: column; align-items: center; }
+        
+.grid-display { display: grid; gap: 5px; background: #0d1117;  padding: 15px; border-radius: 8px; border: 1px solid var(--grey);   margin-top: 20px; }
+ 
+.cell { width: 40px; height: 40px; background: #161b22; border: 1px solid var(--grey); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-family: monospace; transition: all 0.2s ease; }
+.cell.active { border-color: var(--neon-blue); box-shadow: 0 0 10px var(--neon-blue); transform: scale(1.1); z-index: 5; background: rgba(88, 166, 255, 0.1); }
+.cell.star { color: var(--neon-yellow); border-color: var(--neon-yellow); text-shadow: 0 0 8px var(--neon-yellow); background: rgba(210, 153, 34, 0.1); animation: popIn 0.3s ease; }
+.cell.space { color: var(--grey); opacity: 0.3; }
+
+.var-dash { background: var(--card-bg); padding: 20px; border-radius: 12px; border: 1px solid var(--grey); }
+.var-item { margin-bottom: 15px; padding: 10px; background: #0d1117; border-left: 4px solid var(--neon-purple); border-radius: 4px; }
+.var-item label { display: block; font-size: 0.8rem; color: var(--text-main); }
+.var-item span { font-size: 1.5rem; font-family: monospace; color: var(--neon-purple); }
+
+.status-box { background: #0d1117; padding: 15px; color: var(--text-main); border-left: 4px solid var(--neon-green); margin-bottom: 20px; font-family: monospace; min-height: 60px; width: 100%; box-sizing: border-box; }
+        
+.controls { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 25px; }
+select, input { padding: 10px; background: #0d1117; border: 1px solid var(--grey); color: white; border-radius: 6px; }
+        
+.Pattern button { padding: 10px 15px; border: 2px solid var(--neon-blue); background: transparent; color: var(--neon-blue); cursor: pointer; border-radius: 6px; font-weight: bold; transition: 0.2s; }
+.Pattern button:hover:not(:disabled) { background: rgba(88, 166, 255, 0.1); box-shadow: 0 0 10px var(--neon-blue); }
+.Pattern button.active-mode { background: var(--neon-blue); color: black; }
+.Pattern button:disabled { opacity: 0.2; cursor: not-allowed; }
+
+@keyframes popIn { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+   
